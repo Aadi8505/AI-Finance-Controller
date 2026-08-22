@@ -52,45 +52,47 @@ This platform implements a **two-speed hybrid architecture**:
 ## 🏗️ End-to-End System Architecture
 
 ```mermaid
-graph TD
+flowchart TD
     subgraph Ingestion["1. Ingestion Layer"]
-        O[Orders CSV / API]
-        P[Payments CSV / API]
-        S[Settlements CSV / API]
+        O["Orders (CSV / API)"]
+        P["Payments (CSV / API)"]
+        S["Settlements (CSV / API)"]
     end
 
     subgraph FastPath["2. Deterministic Fast Path (>5,000 rec/sec)"]
-        Norm[Deterministic Normalizer]
-        Cand[Candidate Generator Window: 7 Days]
-        Scorer[Multi-Factor Weighted Scorer]
-        Router{Confidence Tier Router}
+        Norm["Deterministic Normalizer"]
+        Cand["Candidate Generator (Window: 7 Days)"]
+        Scorer["Multi-Factor Weighted Scorer"]
+        Router{"Confidence Tier Router"}
     end
 
     subgraph DeepAgent["3. LangGraph Agentic Investigation"]
-        Agent[LangGraph StateGraph Agent]
-        RAG[Policy RAG Retriever POL_001 - POL_007]
-        Tools[Sandboxed Decimal Arithmetic Tools]
+        Agent["LangGraph StateGraph Agent"]
+        RAG["Policy RAG Retriever (POL_001 - POL_007)"]
+        Tools["Sandboxed Decimal Arithmetic Tools"]
     end
 
     subgraph SafetyGate["4. Pre-Commit Safety Barrier"]
-        Validator{Deterministic Safety Validator}
-        SingleClaim[Single-Claim Uniqueness Check]
-        Balance[Amount Conservation |Diff| <= 0.02]
-        Temporal[Temporal Ordering Settlement >= Payment]
+        Validator{"Deterministic Safety Validator"}
+        SingleClaim["Single-Claim Uniqueness Check"]
+        Balance["Amount Conservation (Abs Diff <= 0.02)"]
+        Temporal["Temporal Ordering (Settlement >= Payment)"]
     end
 
     subgraph Persistence["5. Persistence & Human Review"]
-        DB[(PostgreSQL 16 + pgvector)]
-        AuditLog[(Immutable Audit Trail)]
-        ReviewQueue[Human-in-the-Loop Review Queue]
+        DB[("PostgreSQL 16 + pgvector")]
+        AuditLog[("Immutable Audit Trail")]
+        ReviewQueue["Human-in-the-Loop Review Queue"]
     end
 
     subgraph UI["6. Operations & API"]
-        FastAPI[FastAPI REST API /api/reconcile]
-        Streamlit[Streamlit 5-Tab Executive Console]
+        FastAPI["FastAPI REST API (/api/reconcile)"]
+        Streamlit["Streamlit 5-Tab Executive Console"]
     end
 
-    O & P & S --> Norm
+    O --> Norm
+    P --> Norm
+    S --> Norm
     Norm --> Cand --> Scorer --> Router
     Router -->|Score >= 0.90 HIGH| Validator
     Router -->|0.50 <= Score < 0.90 MED| Agent
@@ -100,9 +102,15 @@ graph TD
     Agent <--> Tools
     Agent --> Validator
 
-    Validator --> SingleClaim & Balance & Temporal
-    SingleClaim & Balance & Temporal -->|Validated| DB
-    SingleClaim & Balance & Temporal -->|Rejected / Invariant Violated| ReviewQueue
+    Validator --> SingleClaim
+    Validator --> Balance
+    Validator --> Temporal
+    SingleClaim -->|Validated| DB
+    Balance -->|Validated| DB
+    Temporal -->|Validated| DB
+    SingleClaim -->|Rejected / Invariant Violated| ReviewQueue
+    Balance -->|Rejected / Invariant Violated| ReviewQueue
+    Temporal -->|Rejected / Invariant Violated| ReviewQueue
 
     DB --> AuditLog
     DB --> FastAPI
@@ -160,10 +168,10 @@ The dataset is generated via [`scripts/generate_data.py`](file:///c:/Users/HP%20
   - $S_{\text{amount}}$ (30%): Exact balance (1.0) or standard fee policy balance ($|\text{Gross} - (\text{Net} + \text{Fee})| \le 0.02$).
   - $S_{\text{date}}$ (20%): Immediate $T+0/T+1$ (1.0), $T+2$ (0.9), $T+3$ (0.8), decaying exponentially.
   - $S_{\text{currency}}$ (10%): ISO code equality.
-- **Routing**:
-  - $\text{Score} \ge 0.90 \implies \text{HIGH\_CONFIDENCE}$ (Auto-Resolve Fast Path)
-  - $0.50 \le \text{Score} < 0.90 \implies \text{MEDIUM\_CONFIDENCE}$ (LangGraph Agent Investigation)
-  - $\text{Score} < 0.50 \implies \text{LOW\_CONFIDENCE}$ (Exception Queue)
+- **Confidence Routing**:
+  - **`Score >= 0.90`** $\implies$ `HIGH_CONFIDENCE` (Auto-Resolve Fast Path)
+  - **`0.50 <= Score < 0.90`** $\implies$ `MEDIUM_CONFIDENCE` (LangGraph Agent Investigation)
+  - **`Score < 0.50`** $\implies$ `LOW_CONFIDENCE` (Exception Queue)
 
 ### Pillar 3: PostgreSQL 16 & pgvector Persistence Layer
 - **Files**: [`backend/app/db/schema.sql`](file:///c:/Users/HP%20VICTUS/Desktop/AWS/RZP/ai-finance-controller/backend/app/db/schema.sql), [`backend/app/db/database.py`](file:///c:/Users/HP%20VICTUS/Desktop/AWS/RZP/ai-finance-controller/backend/app/db/database.py), [`backend/app/models/entities.py`](file:///c:/Users/HP%20VICTUS/Desktop/AWS/RZP/ai-finance-controller/backend/app/models/entities.py)
