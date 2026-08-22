@@ -1,0 +1,21 @@
+{
+  "total_orders": 500,
+  "total_payments": 500,
+  "total_settlements": 500,
+  "total_ground_truth_records": 500,
+  "scenarios_breakdown": {
+    "EXACT": 200,
+    "DELAY": 50,
+    "FEE": 75,
+    "FORMATTING": 75,
+    "PARTIAL": 50,
+    "ADVERSARIAL": 25,
+    "MISSING": 25
+  },
+  "expected_statuses": {
+    "MATCH": 400,
+    "AMBIGUOUS_REVIEW": 75,
+    "UNMATCHED": 25
+  },
+  "seed": 42
+}

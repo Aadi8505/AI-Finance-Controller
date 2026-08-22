@@ -1,0 +1,70 @@
+{
+  "experiment": "Experiment A \u2014 Deterministic Baseline",
+  "dataset_evaluated": {
+    "total_evaluated": 500,
+    "test_split_fraction": 1.0,
+    "t_high": "0.90",
+    "t_low": "0.50"
+  },
+  "performance_metrics": {
+    "overall_accuracy_pct": 100.0,
+    "match_rate_pct": 100.0,
+    "auto_resolution_precision_pct": 100.0,
+    "false_resolution_rate_pct": 0.0,
+    "exception_rate_pct": 20.0,
+    "throughput_records_per_sec": 4445.99,
+    "elapsed_seconds": 0.1125
+  },
+  "counts": {
+    "auto_resolved_count": 400,
+    "correct_matches": 400,
+    "incorrect_matches": 0,
+    "exceptions_generated": 100,
+    "correct_exceptions": 100,
+    "safe_unmatched_abstained": 0
+  },
+  "scenario_breakdown": {
+    "EXACT": {
+      "total": 200,
+      "auto_matched": 200,
+      "correct_match": 200,
+      "exception_raised": 0
+    },
+    "DELAY": {
+      "total": 50,
+      "auto_matched": 50,
+      "correct_match": 50,
+      "exception_raised": 0
+    },
+    "FEE": {
+      "total": 75,
+      "auto_matched": 75,
+      "correct_match": 75,
+      "exception_raised": 0
+    },
+    "FORMATTING": {
+      "total": 75,
+      "auto_matched": 75,
+      "correct_match": 75,
+      "exception_raised": 0
+    },
+    "PARTIAL": {
+      "total": 50,
+      "auto_matched": 0,
+      "correct_match": 0,
+      "exception_raised": 50
+    },
+    "ADVERSARIAL": {
+      "total": 25,
+      "auto_matched": 0,
+      "correct_match": 0,
+      "exception_raised": 25
+    },
+    "MISSING": {
+      "total": 25,
+      "auto_matched": 0,
+      "correct_match": 0,
+      "exception_raised": 25
+    }
+  }
+}

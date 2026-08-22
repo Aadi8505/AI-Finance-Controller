@@ -1,0 +1,501 @@
+payment_id,expected_settlement_id,expected_status,scenario_type,expected_net,notes
+PAY_5001,SET_9001,MATCH,EXACT,7304.00,Clean 1:1 match
+PAY_5002,SET_9002,MATCH,DELAY,20757.00,Settlement delay T+3 days (valid by policy)
+PAY_5003,SET_9003,MATCH,EXACT,12657.00,Clean 1:1 match
+PAY_5004,SET_9004,MATCH,EXACT,34273.00,Clean 1:1 match
+PAY_5005,SET_9005,MATCH,EXACT,4785.00,Clean 1:1 match
+PAY_5006,SET_9006,MATCH,EXACT,8367.00,Clean 1:1 match
+PAY_5007,SET_9007,MATCH,FEE,26478.65,Net matched with fee 485.35 (1.800%)
+PAY_5008,SET_9008,MATCH,FORMATTING,19576.00,Matched via format normalization (slash)
+PAY_5009,SET_9009,MATCH,EXACT,43776.00,Clean 1:1 match
+PAY_5010,SET_9010,MATCH,FEE,36821.07,Net matched with fee 674.93 (1.800%)
+PAY_5011,SET_9011,AMBIGUOUS_REVIEW,PARTIAL,180.80,Partial settlement (80.0% of gross)
+PAY_5012,SET_9012,AMBIGUOUS_REVIEW,PARTIAL,34388.10,Partial settlement (90.0% of gross)
+PAY_5013,SET_9013,MATCH,EXACT,29177.00,Clean 1:1 match
+PAY_5014,SET_9014,MATCH,FORMATTING,11320.00,Matched via format normalization (lower)
+PAY_5015,SET_9015,AMBIGUOUS_REVIEW,ADVERSARIAL,43706.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5016,SET_9017,MATCH,EXACT,49426.00,Clean 1:1 match
+PAY_5017,SET_9018,MATCH,DELAY,9856.00,Settlement delay T+2 days (valid by policy)
+PAY_5018,SET_9019,MATCH,EXACT,40260.00,Clean 1:1 match
+PAY_5019,SET_9020,MATCH,FORMATTING,41472.00,Matched via format normalization (spaces)
+PAY_5020,SET_9021,MATCH,FORMATTING,26391.00,Matched via format normalization (dash)
+PAY_5021,SET_9022,AMBIGUOUS_REVIEW,PARTIAL,5748.00,Partial settlement (80.0% of gross)
+PAY_5022,SET_9023,MATCH,FEE,44982.47,Net matched with fee 824.53 (1.800%)
+PAY_5023,SET_9024,MATCH,FEE,36068.86,Net matched with fee 661.14 (1.800%)
+PAY_5024,SET_9025,MATCH,DELAY,8938.00,Settlement delay T+3 days (valid by policy)
+PAY_5025,SET_9026,MATCH,EXACT,29204.00,Clean 1:1 match
+PAY_5026,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5027,SET_9027,MATCH,FORMATTING,17186.00,Matched via format normalization (lower)
+PAY_5028,SET_9028,MATCH,FORMATTING,34363.00,Matched via format normalization (lower)
+PAY_5029,SET_9029,MATCH,FORMATTING,5277.00,Matched via format normalization (slash)
+PAY_5030,SET_9030,MATCH,FORMATTING,22210.00,Matched via format normalization (slash)
+PAY_5031,SET_9031,MATCH,EXACT,15355.00,Clean 1:1 match
+PAY_5032,SET_9032,MATCH,EXACT,27388.00,Clean 1:1 match
+PAY_5033,SET_9033,MATCH,FORMATTING,4280.00,Matched via format normalization (spaces)
+PAY_5034,SET_9034,MATCH,EXACT,38478.00,Clean 1:1 match
+PAY_5035,SET_9035,MATCH,FEE,577.21,Net matched with fee 8.79 (1.500%)
+PAY_5036,SET_9036,MATCH,EXACT,49579.00,Clean 1:1 match
+PAY_5037,SET_9037,AMBIGUOUS_REVIEW,PARTIAL,13122.00,Partial settlement (90.0% of gross)
+PAY_5038,SET_9038,MATCH,EXACT,25684.00,Clean 1:1 match
+PAY_5039,SET_9039,MATCH,FORMATTING,8564.00,Matched via format normalization (spaces)
+PAY_5040,SET_9040,MATCH,EXACT,37187.00,Clean 1:1 match
+PAY_5041,SET_9041,MATCH,DELAY,28289.00,Settlement delay T+2 days (valid by policy)
+PAY_5042,SET_9042,MATCH,FORMATTING,17249.00,Matched via format normalization (slash)
+PAY_5043,SET_9043,MATCH,EXACT,21620.00,Clean 1:1 match
+PAY_5044,SET_9044,MATCH,EXACT,27827.00,Clean 1:1 match
+PAY_5045,SET_9045,MATCH,DELAY,49288.00,Settlement delay T+3 days (valid by policy)
+PAY_5046,SET_9046,MATCH,EXACT,42807.00,Clean 1:1 match
+PAY_5047,SET_9047,MATCH,EXACT,13265.00,Clean 1:1 match
+PAY_5048,SET_9048,MATCH,FEE,8319.50,Net matched with fee 152.50 (1.800%)
+PAY_5049,SET_9049,MATCH,EXACT,14484.00,Clean 1:1 match
+PAY_5050,SET_9050,MATCH,EXACT,39907.00,Clean 1:1 match
+PAY_5051,SET_9051,MATCH,EXACT,7284.00,Clean 1:1 match
+PAY_5052,SET_9052,MATCH,EXACT,44590.00,Clean 1:1 match
+PAY_5053,SET_9053,AMBIGUOUS_REVIEW,PARTIAL,9237.90,Partial settlement (70.0% of gross)
+PAY_5054,SET_9054,MATCH,FEE,19604.65,Net matched with fee 359.35 (1.800%)
+PAY_5055,SET_9055,MATCH,EXACT,2891.00,Clean 1:1 match
+PAY_5056,SET_9056,MATCH,EXACT,33358.00,Clean 1:1 match
+PAY_5057,SET_9057,MATCH,FEE,31743.15,Net matched with fee 581.85 (1.800%)
+PAY_5058,SET_9058,MATCH,EXACT,41853.00,Clean 1:1 match
+PAY_5059,SET_9059,MATCH,EXACT,11743.00,Clean 1:1 match
+PAY_5060,SET_9060,MATCH,DELAY,28745.00,Settlement delay T+3 days (valid by policy)
+PAY_5061,SET_9061,MATCH,EXACT,5879.00,Clean 1:1 match
+PAY_5062,SET_9062,MATCH,DELAY,30655.00,Settlement delay T+3 days (valid by policy)
+PAY_5063,SET_9063,MATCH,EXACT,32594.00,Clean 1:1 match
+PAY_5064,SET_9064,MATCH,EXACT,14101.00,Clean 1:1 match
+PAY_5065,SET_9065,MATCH,EXACT,39269.00,Clean 1:1 match
+PAY_5066,SET_9066,MATCH,EXACT,12721.00,Clean 1:1 match
+PAY_5067,SET_9067,MATCH,FEE,35852.32,Net matched with fee 731.68 (2.00%)
+PAY_5068,SET_9068,MATCH,EXACT,31401.00,Clean 1:1 match
+PAY_5069,SET_9069,MATCH,DELAY,6172.04,Settlement delay T+3 days (valid by policy)
+PAY_5070,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5071,SET_9070,MATCH,EXACT,36472.00,Clean 1:1 match
+PAY_5072,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5073,SET_9071,MATCH,FEE,29486.96,Net matched with fee 449.04 (1.500%)
+PAY_5074,SET_9072,MATCH,FEE,15001.84,Net matched with fee 306.16 (2.00%)
+PAY_5075,SET_9073,AMBIGUOUS_REVIEW,PARTIAL,6428.00,Partial settlement (80.0% of gross)
+PAY_5076,SET_9074,AMBIGUOUS_REVIEW,PARTIAL,41314.25,Partial settlement (85.00% of gross)
+PAY_5077,SET_9075,MATCH,EXACT,12921.00,Clean 1:1 match
+PAY_5078,SET_9076,MATCH,FEE,19608.82,Net matched with fee 400.18 (2.00%)
+PAY_5079,SET_9077,MATCH,FORMATTING,3182.00,Matched via format normalization (slash)
+PAY_5080,SET_9078,MATCH,EXACT,49534.00,Clean 1:1 match
+PAY_5081,SET_9079,MATCH,EXACT,18834.00,Clean 1:1 match
+PAY_5082,SET_9080,MATCH,EXACT,12282.00,Clean 1:1 match
+PAY_5083,SET_9081,AMBIGUOUS_REVIEW,PARTIAL,3137.40,Partial settlement (70.0% of gross)
+PAY_5084,SET_9082,MATCH,FORMATTING,41451.00,Matched via format normalization (slash)
+PAY_5085,SET_9083,MATCH,DELAY,37086.00,Settlement delay T+2 days (valid by policy)
+PAY_5086,SET_9084,AMBIGUOUS_REVIEW,PARTIAL,6369.60,Partial settlement (80.0% of gross)
+PAY_5087,SET_9085,MATCH,FEE,33826.95,Net matched with fee 620.05 (1.800%)
+PAY_5088,SET_9086,MATCH,EXACT,19687.00,Clean 1:1 match
+PAY_5089,SET_9087,AMBIGUOUS_REVIEW,PARTIAL,32719.20,Partial settlement (80.0% of gross)
+PAY_5090,SET_9088,MATCH,EXACT,14029.00,Clean 1:1 match
+PAY_5091,SET_9089,MATCH,EXACT,11591.00,Clean 1:1 match
+PAY_5092,SET_9090,MATCH,EXACT,26972.00,Clean 1:1 match
+PAY_5093,SET_9091,MATCH,FORMATTING,15370.00,Matched via format normalization (spaces)
+PAY_5094,SET_9092,MATCH,FORMATTING,45248.00,Matched via format normalization (raw_num)
+PAY_5095,SET_9093,MATCH,EXACT,13164.00,Clean 1:1 match
+PAY_5096,SET_9094,MATCH,EXACT,9964.00,Clean 1:1 match
+PAY_5097,SET_9095,MATCH,EXACT,4108.00,Clean 1:1 match
+PAY_5098,SET_9096,AMBIGUOUS_REVIEW,PARTIAL,7514.10,Partial settlement (90.0% of gross)
+PAY_5099,SET_9097,MATCH,DELAY,32998.00,Settlement delay T+3 days (valid by policy)
+PAY_5100,SET_9098,MATCH,EXACT,39392.00,Clean 1:1 match
+PAY_5101,SET_9099,MATCH,FORMATTING,16608.00,Matched via format normalization (slash)
+PAY_5102,SET_9100,MATCH,DELAY,37896.00,Settlement delay T+3 days (valid by policy)
+PAY_5103,SET_9101,MATCH,FORMATTING,2836.00,Matched via format normalization (spaces)
+PAY_5104,SET_9102,MATCH,DELAY,42897.00,Settlement delay T+2 days (valid by policy)
+PAY_5105,SET_9103,MATCH,EXACT,28766.00,Clean 1:1 match
+PAY_5106,SET_9104,MATCH,FEE,22657.95,Net matched with fee 345.05 (1.500%)
+PAY_5107,SET_9105,MATCH,EXACT,44117.00,Clean 1:1 match
+PAY_5108,SET_9106,MATCH,DELAY,45660.00,Settlement delay T+3 days (valid by policy)
+PAY_5109,SET_9107,MATCH,EXACT,36251.00,Clean 1:1 match
+PAY_5110,SET_9108,MATCH,FEE,16439.66,Net matched with fee 301.34 (1.800%)
+PAY_5111,SET_9109,MATCH,EXACT,26688.00,Clean 1:1 match
+PAY_5112,SET_9110,MATCH,DELAY,3752.00,Settlement delay T+3 days (valid by policy)
+PAY_5113,SET_9111,MATCH,EXACT,29169.00,Clean 1:1 match
+PAY_5114,SET_9112,MATCH,EXACT,36193.00,Clean 1:1 match
+PAY_5115,SET_9113,MATCH,FEE,31390.61,Net matched with fee 575.39 (1.800%)
+PAY_5116,SET_9114,AMBIGUOUS_REVIEW,ADVERSARIAL,40103.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5117,SET_9116,AMBIGUOUS_REVIEW,PARTIAL,9521.10,Partial settlement (90.0% of gross)
+PAY_5118,SET_9117,MATCH,EXACT,14925.00,Clean 1:1 match
+PAY_5119,SET_9118,MATCH,EXACT,42648.00,Clean 1:1 match
+PAY_5120,SET_9119,MATCH,FORMATTING,19327.00,Matched via format normalization (spaces)
+PAY_5121,SET_9120,MATCH,EXACT,31147.00,Clean 1:1 match
+PAY_5122,SET_9121,MATCH,FORMATTING,12691.00,Matched via format normalization (dash)
+PAY_5123,SET_9122,AMBIGUOUS_REVIEW,ADVERSARIAL,27393.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5124,SET_9124,MATCH,FORMATTING,18736.00,Matched via format normalization (raw_num)
+PAY_5125,SET_9125,MATCH,FORMATTING,43449.00,Matched via format normalization (spaces)
+PAY_5126,SET_9126,AMBIGUOUS_REVIEW,PARTIAL,28746.90,Partial settlement (90.0% of gross)
+PAY_5127,SET_9127,MATCH,FEE,20862.24,Net matched with fee 425.76 (2.00%)
+PAY_5128,SET_9128,MATCH,EXACT,15850.00,Clean 1:1 match
+PAY_5129,SET_9129,MATCH,EXACT,27120.00,Clean 1:1 match
+PAY_5130,SET_9130,MATCH,FEE,24680.32,Net matched with fee 503.68 (2.00%)
+PAY_5131,SET_9131,MATCH,FEE,2586.61,Net matched with fee 39.39 (1.500%)
+PAY_5132,SET_9132,MATCH,EXACT,29055.00,Clean 1:1 match
+PAY_5133,SET_9133,MATCH,EXACT,9647.00,Clean 1:1 match
+PAY_5134,SET_9134,AMBIGUOUS_REVIEW,ADVERSARIAL,17568.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5135,SET_9136,MATCH,FORMATTING,5463.00,Matched via format normalization (raw_num)
+PAY_5136,SET_9137,MATCH,EXACT,20952.00,Clean 1:1 match
+PAY_5137,SET_9138,MATCH,FORMATTING,4684.00,Matched via format normalization (slash)
+PAY_5138,SET_9139,MATCH,FEE,6012.79,Net matched with fee 110.21 (1.800%)
+PAY_5139,SET_9140,MATCH,DELAY,41733.00,Settlement delay T+3 days (valid by policy)
+PAY_5140,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5141,SET_9141,MATCH,EXACT,21458.00,Clean 1:1 match
+PAY_5142,SET_9142,AMBIGUOUS_REVIEW,PARTIAL,19812.00,Partial settlement (80.0% of gross)
+PAY_5143,SET_9143,MATCH,EXACT,27204.00,Clean 1:1 match
+PAY_5144,SET_9144,MATCH,EXACT,5375.00,Clean 1:1 match
+PAY_5145,SET_9145,MATCH,EXACT,38417.00,Clean 1:1 match
+PAY_5146,SET_9146,MATCH,EXACT,16844.00,Clean 1:1 match
+PAY_5147,SET_9147,AMBIGUOUS_REVIEW,PARTIAL,13335.00,Partial settlement (70.0% of gross)
+PAY_5148,SET_9148,MATCH,FEE,22503.31,Net matched with fee 342.69 (1.500%)
+PAY_5149,SET_9149,MATCH,FORMATTING,28007.00,Matched via format normalization (spaces)
+PAY_5150,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5151,SET_9150,MATCH,FORMATTING,15745.00,Matched via format normalization (raw_num)
+PAY_5152,SET_9151,MATCH,EXACT,46027.00,Clean 1:1 match
+PAY_5153,SET_9152,AMBIGUOUS_REVIEW,PARTIAL,657.00,Partial settlement (90.0% of gross)
+PAY_5154,SET_9153,MATCH,FEE,15051.78,Net matched with fee 229.22 (1.500%)
+PAY_5155,SET_9154,MATCH,FEE,41292.18,Net matched with fee 628.82 (1.500%)
+PAY_5156,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5157,SET_9155,MATCH,FEE,6448.79,Net matched with fee 118.21 (1.800%)
+PAY_5158,SET_9156,MATCH,EXACT,29089.00,Clean 1:1 match
+PAY_5159,SET_9157,AMBIGUOUS_REVIEW,PARTIAL,15632.00,Partial settlement (80.0% of gross)
+PAY_5160,SET_9158,MATCH,EXACT,8861.00,Clean 1:1 match
+PAY_5161,SET_9159,MATCH,EXACT,17040.00,Clean 1:1 match
+PAY_5162,SET_9160,MATCH,FORMATTING,22398.00,Matched via format normalization (spaces)
+PAY_5163,SET_9161,MATCH,FEE,9235.52,Net matched with fee 188.48 (2.00%)
+PAY_5164,SET_9162,MATCH,FEE,46804.08,Net matched with fee 857.92 (1.800%)
+PAY_5165,SET_9163,MATCH,FEE,23735.92,Net matched with fee 435.08 (1.800%)
+PAY_5166,SET_9164,MATCH,FEE,17215.44,Net matched with fee 315.56 (1.800%)
+PAY_5167,SET_9165,MATCH,EXACT,24355.00,Clean 1:1 match
+PAY_5168,SET_9166,MATCH,FORMATTING,24544.00,Matched via format normalization (spaces)
+PAY_5169,SET_9167,MATCH,DELAY,40802.00,Settlement delay T+2 days (valid by policy)
+PAY_5170,SET_9168,MATCH,DELAY,4342.00,Settlement delay T+3 days (valid by policy)
+PAY_5171,SET_9169,MATCH,EXACT,26958.00,Clean 1:1 match
+PAY_5172,SET_9170,MATCH,FORMATTING,20146.00,Matched via format normalization (dash)
+PAY_5173,SET_9171,AMBIGUOUS_REVIEW,PARTIAL,31885.20,Partial settlement (90.0% of gross)
+PAY_5174,SET_9172,MATCH,EXACT,44140.00,Clean 1:1 match
+PAY_5175,SET_9173,MATCH,EXACT,43120.00,Clean 1:1 match
+PAY_5176,SET_9174,MATCH,EXACT,2344.00,Clean 1:1 match
+PAY_5177,SET_9175,MATCH,FEE,28756.14,Net matched with fee 586.86 (2.00%)
+PAY_5178,SET_9176,MATCH,EXACT,6711.00,Clean 1:1 match
+PAY_5179,SET_9177,MATCH,DELAY,25766.16,Settlement delay T+2 days (valid by policy)
+PAY_5180,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5181,SET_9178,MATCH,FORMATTING,42109.00,Matched via format normalization (dash)
+PAY_5182,SET_9179,MATCH,EXACT,16162.00,Clean 1:1 match
+PAY_5183,SET_9180,MATCH,FORMATTING,36520.00,Matched via format normalization (slash)
+PAY_5184,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5185,SET_9181,AMBIGUOUS_REVIEW,PARTIAL,7745.60,Partial settlement (80.0% of gross)
+PAY_5186,SET_9182,MATCH,EXACT,43523.00,Clean 1:1 match
+PAY_5187,SET_9183,MATCH,EXACT,23677.00,Clean 1:1 match
+PAY_5188,SET_9184,AMBIGUOUS_REVIEW,ADVERSARIAL,11619.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5189,SET_9186,MATCH,EXACT,48809.00,Clean 1:1 match
+PAY_5190,SET_9187,MATCH,EXACT,29578.00,Clean 1:1 match
+PAY_5191,SET_9188,MATCH,FEE,32621.06,Net matched with fee 597.94 (1.800%)
+PAY_5192,SET_9189,MATCH,FEE,42730.28,Net matched with fee 650.72 (1.500%)
+PAY_5193,SET_9190,MATCH,FEE,41598.50,Net matched with fee 762.50 (1.800%)
+PAY_5194,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5195,SET_9191,MATCH,EXACT,46887.00,Clean 1:1 match
+PAY_5196,SET_9192,MATCH,FORMATTING,21309.00,Matched via format normalization (dash)
+PAY_5197,SET_9193,MATCH,EXACT,18223.00,Clean 1:1 match
+PAY_5198,SET_9194,MATCH,EXACT,34970.00,Clean 1:1 match
+PAY_5199,SET_9195,MATCH,EXACT,46191.00,Clean 1:1 match
+PAY_5200,SET_9196,AMBIGUOUS_REVIEW,PARTIAL,13656.60,Partial settlement (90.0% of gross)
+PAY_5201,SET_9197,MATCH,FORMATTING,27462.00,Matched via format normalization (lower)
+PAY_5202,SET_9198,MATCH,FORMATTING,20681.00,Matched via format normalization (lower)
+PAY_5203,SET_9199,MATCH,DELAY,45211.00,Settlement delay T+2 days (valid by policy)
+PAY_5204,SET_9200,AMBIGUOUS_REVIEW,ADVERSARIAL,5794.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5205,SET_9202,MATCH,FORMATTING,48997.00,Matched via format normalization (slash)
+PAY_5206,SET_9203,AMBIGUOUS_REVIEW,ADVERSARIAL,4130.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5207,SET_9205,MATCH,EXACT,8210.00,Clean 1:1 match
+PAY_5208,SET_9206,MATCH,EXACT,3571.00,Clean 1:1 match
+PAY_5209,SET_9207,MATCH,FORMATTING,38074.00,Matched via format normalization (slash)
+PAY_5210,SET_9208,MATCH,EXACT,31800.00,Clean 1:1 match
+PAY_5211,SET_9209,MATCH,DELAY,24288.00,Settlement delay T+2 days (valid by policy)
+PAY_5212,SET_9210,MATCH,DELAY,36963.00,Settlement delay T+3 days (valid by policy)
+PAY_5213,SET_9211,AMBIGUOUS_REVIEW,PARTIAL,10219.55,Partial settlement (85.00% of gross)
+PAY_5214,SET_9212,MATCH,FEE,588.00,Net matched with fee 12.00 (2.00%)
+PAY_5215,SET_9213,AMBIGUOUS_REVIEW,ADVERSARIAL,43279.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5216,SET_9215,MATCH,DELAY,48760.00,Settlement delay T+2 days (valid by policy)
+PAY_5217,SET_9216,MATCH,FORMATTING,34965.00,Matched via format normalization (spaces)
+PAY_5218,SET_9217,AMBIGUOUS_REVIEW,PARTIAL,19159.00,Partial settlement (85.00% of gross)
+PAY_5219,SET_9218,AMBIGUOUS_REVIEW,PARTIAL,15020.60,Partial settlement (70.0% of gross)
+PAY_5220,SET_9219,MATCH,EXACT,10516.00,Clean 1:1 match
+PAY_5221,SET_9220,MATCH,FORMATTING,29239.00,Matched via format normalization (spaces)
+PAY_5222,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5223,SET_9221,MATCH,EXACT,49675.00,Clean 1:1 match
+PAY_5224,SET_9222,MATCH,DELAY,7467.00,Settlement delay T+3 days (valid by policy)
+PAY_5225,SET_9223,MATCH,EXACT,14651.00,Clean 1:1 match
+PAY_5226,SET_9224,AMBIGUOUS_REVIEW,ADVERSARIAL,19953.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5227,SET_9226,MATCH,EXACT,9193.00,Clean 1:1 match
+PAY_5228,SET_9227,MATCH,FEE,7917.87,Net matched with fee 145.13 (1.800%)
+PAY_5229,SET_9228,MATCH,EXACT,28423.00,Clean 1:1 match
+PAY_5230,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5231,SET_9229,AMBIGUOUS_REVIEW,ADVERSARIAL,26222.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5232,SET_9231,AMBIGUOUS_REVIEW,PARTIAL,1213.80,Partial settlement (85.00% of gross)
+PAY_5233,SET_9232,MATCH,FORMATTING,28333.00,Matched via format normalization (spaces)
+PAY_5234,SET_9233,AMBIGUOUS_REVIEW,PARTIAL,6585.80,Partial settlement (85.00% of gross)
+PAY_5235,SET_9234,MATCH,EXACT,40709.00,Clean 1:1 match
+PAY_5236,SET_9235,MATCH,DELAY,7137.00,Settlement delay T+3 days (valid by policy)
+PAY_5237,SET_9236,MATCH,EXACT,5354.00,Clean 1:1 match
+PAY_5238,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5239,SET_9237,MATCH,EXACT,33655.00,Clean 1:1 match
+PAY_5240,SET_9238,MATCH,FORMATTING,23096.00,Matched via format normalization (slash)
+PAY_5241,SET_9239,AMBIGUOUS_REVIEW,PARTIAL,7837.60,Partial settlement (80.0% of gross)
+PAY_5242,SET_9240,MATCH,EXACT,10218.00,Clean 1:1 match
+PAY_5243,SET_9241,MATCH,EXACT,41353.00,Clean 1:1 match
+PAY_5244,SET_9242,MATCH,FORMATTING,37194.00,Matched via format normalization (lower)
+PAY_5245,SET_9243,MATCH,FORMATTING,29020.00,Matched via format normalization (spaces)
+PAY_5246,SET_9244,MATCH,FORMATTING,20045.00,Matched via format normalization (raw_num)
+PAY_5247,SET_9245,MATCH,EXACT,23264.00,Clean 1:1 match
+PAY_5248,SET_9246,AMBIGUOUS_REVIEW,ADVERSARIAL,29816.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5249,SET_9248,MATCH,EXACT,19013.00,Clean 1:1 match
+PAY_5250,SET_9249,MATCH,EXACT,38232.00,Clean 1:1 match
+PAY_5251,SET_9250,MATCH,FORMATTING,42918.00,Matched via format normalization (raw_num)
+PAY_5252,SET_9251,AMBIGUOUS_REVIEW,PARTIAL,29751.30,Partial settlement (90.0% of gross)
+PAY_5253,SET_9252,AMBIGUOUS_REVIEW,ADVERSARIAL,22707.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5254,SET_9254,AMBIGUOUS_REVIEW,ADVERSARIAL,42544.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5255,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5256,SET_9256,MATCH,EXACT,34458.00,Clean 1:1 match
+PAY_5257,SET_9257,MATCH,FEE,18401.70,Net matched with fee 337.30 (1.800%)
+PAY_5258,SET_9258,AMBIGUOUS_REVIEW,PARTIAL,19018.75,Partial settlement (85.00% of gross)
+PAY_5259,SET_9259,MATCH,EXACT,21806.00,Clean 1:1 match
+PAY_5260,SET_9260,MATCH,FORMATTING,47630.00,Matched via format normalization (lower)
+PAY_5261,SET_9261,MATCH,EXACT,38390.00,Clean 1:1 match
+PAY_5262,SET_9262,MATCH,DELAY,43195.00,Settlement delay T+2 days (valid by policy)
+PAY_5263,SET_9263,MATCH,EXACT,46654.00,Clean 1:1 match
+PAY_5264,SET_9264,MATCH,FORMATTING,24886.00,Matched via format normalization (slash)
+PAY_5265,SET_9265,MATCH,EXACT,46260.00,Clean 1:1 match
+PAY_5266,SET_9266,AMBIGUOUS_REVIEW,PARTIAL,20325.20,Partial settlement (85.00% of gross)
+PAY_5267,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5268,SET_9267,MATCH,DELAY,14745.08,Settlement delay T+2 days (valid by policy)
+PAY_5269,SET_9268,MATCH,DELAY,6828.00,Settlement delay T+3 days (valid by policy)
+PAY_5270,SET_9269,MATCH,EXACT,40703.00,Clean 1:1 match
+PAY_5271,SET_9270,MATCH,EXACT,12051.00,Clean 1:1 match
+PAY_5272,SET_9271,MATCH,FEE,26583.48,Net matched with fee 542.52 (2.00%)
+PAY_5273,SET_9272,MATCH,EXACT,40215.00,Clean 1:1 match
+PAY_5274,SET_9273,MATCH,DELAY,15874.00,Settlement delay T+2 days (valid by policy)
+PAY_5275,SET_9274,MATCH,EXACT,44653.00,Clean 1:1 match
+PAY_5276,SET_9275,MATCH,FORMATTING,18666.00,Matched via format normalization (raw_num)
+PAY_5277,SET_9276,MATCH,FORMATTING,27637.00,Matched via format normalization (raw_num)
+PAY_5278,SET_9277,MATCH,FORMATTING,16584.00,Matched via format normalization (lower)
+PAY_5279,SET_9278,MATCH,FEE,6798.39,Net matched with fee 124.61 (1.800%)
+PAY_5280,SET_9279,MATCH,DELAY,5582.08,Settlement delay T+3 days (valid by policy)
+PAY_5281,SET_9280,MATCH,EXACT,33843.00,Clean 1:1 match
+PAY_5282,SET_9281,MATCH,EXACT,29765.00,Clean 1:1 match
+PAY_5283,SET_9282,MATCH,FEE,3634.65,Net matched with fee 55.35 (1.500%)
+PAY_5284,SET_9283,MATCH,DELAY,25507.00,Settlement delay T+2 days (valid by policy)
+PAY_5285,SET_9284,MATCH,FEE,20705.47,Net matched with fee 379.53 (1.800%)
+PAY_5286,SET_9285,MATCH,FEE,41939.10,Net matched with fee 855.90 (2.00%)
+PAY_5287,SET_9286,MATCH,DELAY,2710.00,Settlement delay T+2 days (valid by policy)
+PAY_5288,SET_9287,MATCH,EXACT,46438.00,Clean 1:1 match
+PAY_5289,SET_9288,MATCH,FEE,1416.10,Net matched with fee 28.90 (2.00%)
+PAY_5290,SET_9289,MATCH,FORMATTING,36166.00,Matched via format normalization (dash)
+PAY_5291,SET_9290,MATCH,EXACT,19081.00,Clean 1:1 match
+PAY_5292,SET_9291,MATCH,EXACT,15826.00,Clean 1:1 match
+PAY_5293,SET_9292,MATCH,FORMATTING,32956.00,Matched via format normalization (raw_num)
+PAY_5294,SET_9293,AMBIGUOUS_REVIEW,PARTIAL,13646.75,Partial settlement (85.00% of gross)
+PAY_5295,SET_9294,MATCH,FORMATTING,302.00,Matched via format normalization (slash)
+PAY_5296,SET_9295,MATCH,EXACT,27500.00,Clean 1:1 match
+PAY_5297,SET_9296,AMBIGUOUS_REVIEW,PARTIAL,31207.50,Partial settlement (90.0% of gross)
+PAY_5298,SET_9297,MATCH,DELAY,3053.00,Settlement delay T+3 days (valid by policy)
+PAY_5299,SET_9298,MATCH,EXACT,49176.00,Clean 1:1 match
+PAY_5300,SET_9299,MATCH,EXACT,16002.00,Clean 1:1 match
+PAY_5301,SET_9300,MATCH,EXACT,3105.00,Clean 1:1 match
+PAY_5302,SET_9301,MATCH,EXACT,45071.00,Clean 1:1 match
+PAY_5303,SET_9302,MATCH,DELAY,4335.00,Settlement delay T+2 days (valid by policy)
+PAY_5304,SET_9303,MATCH,FEE,13142.78,Net matched with fee 268.22 (2.00%)
+PAY_5305,SET_9304,MATCH,EXACT,20882.00,Clean 1:1 match
+PAY_5306,SET_9305,MATCH,FORMATTING,31224.00,Matched via format normalization (slash)
+PAY_5307,SET_9306,MATCH,EXACT,23594.00,Clean 1:1 match
+PAY_5308,SET_9307,MATCH,FEE,8231.64,Net matched with fee 125.36 (1.500%)
+PAY_5309,SET_9308,MATCH,EXACT,26415.00,Clean 1:1 match
+PAY_5310,SET_9309,MATCH,FORMATTING,12443.00,Matched via format normalization (lower)
+PAY_5311,SET_9310,MATCH,FEE,17360.78,Net matched with fee 318.22 (1.800%)
+PAY_5312,SET_9311,MATCH,EXACT,28020.00,Clean 1:1 match
+PAY_5313,SET_9312,MATCH,EXACT,19452.00,Clean 1:1 match
+PAY_5314,SET_9313,MATCH,FEE,42861.29,Net matched with fee 652.71 (1.500%)
+PAY_5315,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5316,SET_9314,MATCH,DELAY,45404.00,Settlement delay T+3 days (valid by policy)
+PAY_5317,SET_9315,MATCH,FEE,47114.52,Net matched with fee 717.48 (1.500%)
+PAY_5318,SET_9316,MATCH,EXACT,28704.00,Clean 1:1 match
+PAY_5319,SET_9317,MATCH,EXACT,41980.00,Clean 1:1 match
+PAY_5320,SET_9318,MATCH,FORMATTING,9557.00,Matched via format normalization (dash)
+PAY_5321,SET_9319,MATCH,EXACT,4606.00,Clean 1:1 match
+PAY_5322,SET_9320,MATCH,FORMATTING,37374.00,Matched via format normalization (spaces)
+PAY_5323,SET_9321,AMBIGUOUS_REVIEW,PARTIAL,19664.00,Partial settlement (80.0% of gross)
+PAY_5324,SET_9322,MATCH,EXACT,24248.00,Clean 1:1 match
+PAY_5325,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5326,SET_9323,MATCH,EXACT,34130.00,Clean 1:1 match
+PAY_5327,SET_9324,MATCH,FORMATTING,17258.00,Matched via format normalization (slash)
+PAY_5328,SET_9325,AMBIGUOUS_REVIEW,PARTIAL,15132.00,Partial settlement (80.0% of gross)
+PAY_5329,SET_9326,AMBIGUOUS_REVIEW,ADVERSARIAL,9095.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5330,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5331,SET_9328,MATCH,FEE,44216.65,Net matched with fee 673.35 (1.500%)
+PAY_5332,SET_9329,AMBIGUOUS_REVIEW,PARTIAL,19522.80,Partial settlement (85.00% of gross)
+PAY_5333,SET_9330,AMBIGUOUS_REVIEW,PARTIAL,8943.70,Partial settlement (85.00% of gross)
+PAY_5334,SET_9331,MATCH,EXACT,14895.00,Clean 1:1 match
+PAY_5335,SET_9332,MATCH,EXACT,32576.00,Clean 1:1 match
+PAY_5336,SET_9333,MATCH,FEE,35697.66,Net matched with fee 654.34 (1.800%)
+PAY_5337,SET_9334,MATCH,EXACT,20469.00,Clean 1:1 match
+PAY_5338,SET_9335,MATCH,FORMATTING,27032.00,Matched via format normalization (slash)
+PAY_5339,SET_9336,MATCH,FORMATTING,42296.00,Matched via format normalization (spaces)
+PAY_5340,SET_9337,AMBIGUOUS_REVIEW,PARTIAL,27284.00,Partial settlement (80.0% of gross)
+PAY_5341,SET_9338,MATCH,EXACT,8656.00,Clean 1:1 match
+PAY_5342,SET_9339,MATCH,EXACT,10228.00,Clean 1:1 match
+PAY_5343,SET_9340,MATCH,EXACT,46686.00,Clean 1:1 match
+PAY_5344,SET_9341,MATCH,FEE,16373.65,Net matched with fee 249.35 (1.500%)
+PAY_5345,SET_9342,AMBIGUOUS_REVIEW,ADVERSARIAL,41161.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5346,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5347,SET_9344,AMBIGUOUS_REVIEW,PARTIAL,30359.00,Partial settlement (70.0% of gross)
+PAY_5348,SET_9345,MATCH,EXACT,5523.00,Clean 1:1 match
+PAY_5349,SET_9346,MATCH,EXACT,37695.00,Clean 1:1 match
+PAY_5350,SET_9347,MATCH,EXACT,35954.00,Clean 1:1 match
+PAY_5351,SET_9348,MATCH,EXACT,45091.00,Clean 1:1 match
+PAY_5352,SET_9349,MATCH,FORMATTING,45328.00,Matched via format normalization (spaces)
+PAY_5353,SET_9350,MATCH,FORMATTING,31935.00,Matched via format normalization (lower)
+PAY_5354,SET_9351,MATCH,EXACT,9615.00,Clean 1:1 match
+PAY_5355,SET_9352,MATCH,DELAY,8769.00,Settlement delay T+2 days (valid by policy)
+PAY_5356,SET_9353,AMBIGUOUS_REVIEW,PARTIAL,13635.70,Partial settlement (85.00% of gross)
+PAY_5357,SET_9354,MATCH,FORMATTING,16447.00,Matched via format normalization (dash)
+PAY_5358,SET_9355,MATCH,FEE,24918.25,Net matched with fee 456.75 (1.800%)
+PAY_5359,SET_9356,MATCH,FORMATTING,10666.00,Matched via format normalization (raw_num)
+PAY_5360,SET_9357,MATCH,FEE,20280.12,Net matched with fee 413.88 (2.00%)
+PAY_5361,SET_9358,MATCH,EXACT,33933.00,Clean 1:1 match
+PAY_5362,SET_9359,MATCH,FEE,1687.08,Net matched with fee 30.92 (1.800%)
+PAY_5363,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5364,SET_9360,MATCH,EXACT,23327.00,Clean 1:1 match
+PAY_5365,SET_9361,AMBIGUOUS_REVIEW,ADVERSARIAL,39358.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5366,SET_9363,AMBIGUOUS_REVIEW,PARTIAL,31834.80,Partial settlement (90.0% of gross)
+PAY_5367,SET_9364,MATCH,EXACT,17532.00,Clean 1:1 match
+PAY_5368,SET_9365,MATCH,FORMATTING,3165.00,Matched via format normalization (raw_num)
+PAY_5369,SET_9366,MATCH,FEE,12761.66,Net matched with fee 194.34 (1.500%)
+PAY_5370,SET_9367,MATCH,FORMATTING,25519.00,Matched via format normalization (raw_num)
+PAY_5371,SET_9368,MATCH,FORMATTING,41044.00,Matched via format normalization (slash)
+PAY_5372,SET_9369,MATCH,FEE,25623.79,Net matched with fee 390.21 (1.500%)
+PAY_5373,SET_9370,MATCH,DELAY,23676.80,Settlement delay T+2 days (valid by policy)
+PAY_5374,SET_9371,MATCH,DELAY,33565.00,Settlement delay T+2 days (valid by policy)
+PAY_5375,SET_9372,MATCH,DELAY,9180.00,Settlement delay T+3 days (valid by policy)
+PAY_5376,SET_9373,MATCH,FEE,29546.02,Net matched with fee 602.98 (2.00%)
+PAY_5377,SET_9374,MATCH,EXACT,40378.00,Clean 1:1 match
+PAY_5378,SET_9375,MATCH,EXACT,48652.00,Clean 1:1 match
+PAY_5379,SET_9376,MATCH,EXACT,33604.00,Clean 1:1 match
+PAY_5380,SET_9377,MATCH,FORMATTING,1290.00,Matched via format normalization (dash)
+PAY_5381,SET_9378,MATCH,EXACT,38453.00,Clean 1:1 match
+PAY_5382,SET_9379,AMBIGUOUS_REVIEW,ADVERSARIAL,43164.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5383,SET_9381,MATCH,EXACT,3565.00,Clean 1:1 match
+PAY_5384,SET_9382,MATCH,EXACT,41423.00,Clean 1:1 match
+PAY_5385,SET_9383,MATCH,EXACT,16072.00,Clean 1:1 match
+PAY_5386,SET_9384,MATCH,DELAY,29103.00,Settlement delay T+2 days (valid by policy)
+PAY_5387,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5388,SET_9385,MATCH,FEE,39548.09,Net matched with fee 724.91 (1.800%)
+PAY_5389,SET_9386,MATCH,DELAY,46913.58,Settlement delay T+2 days (valid by policy)
+PAY_5390,SET_9387,AMBIGUOUS_REVIEW,ADVERSARIAL,21502.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5391,SET_9389,MATCH,EXACT,24895.00,Clean 1:1 match
+PAY_5392,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5393,SET_9390,MATCH,FORMATTING,47446.00,Matched via format normalization (raw_num)
+PAY_5394,SET_9391,AMBIGUOUS_REVIEW,PARTIAL,10880.00,Partial settlement (85.00% of gross)
+PAY_5395,SET_9392,AMBIGUOUS_REVIEW,ADVERSARIAL,19704.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5396,SET_9394,AMBIGUOUS_REVIEW,PARTIAL,11716.40,Partial settlement (85.00% of gross)
+PAY_5397,SET_9395,MATCH,FORMATTING,23059.00,Matched via format normalization (lower)
+PAY_5398,SET_9396,MATCH,EXACT,37783.00,Clean 1:1 match
+PAY_5399,SET_9397,AMBIGUOUS_REVIEW,PARTIAL,8329.15,Partial settlement (85.00% of gross)
+PAY_5400,SET_9398,MATCH,FEE,5282.18,Net matched with fee 96.82 (1.800%)
+PAY_5401,SET_9399,MATCH,EXACT,17006.00,Clean 1:1 match
+PAY_5402,SET_9400,MATCH,FEE,34963.56,Net matched with fee 532.44 (1.500%)
+PAY_5403,SET_9401,MATCH,FEE,7210.84,Net matched with fee 147.16 (2.00%)
+PAY_5404,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5405,SET_9402,MATCH,EXACT,15459.00,Clean 1:1 match
+PAY_5406,SET_9403,MATCH,FEE,46362.18,Net matched with fee 849.82 (1.800%)
+PAY_5407,SET_9404,MATCH,EXACT,9209.00,Clean 1:1 match
+PAY_5408,SET_9405,MATCH,EXACT,31375.00,Clean 1:1 match
+PAY_5409,SET_9406,MATCH,EXACT,18904.00,Clean 1:1 match
+PAY_5410,SET_9407,MATCH,EXACT,37826.00,Clean 1:1 match
+PAY_5411,SET_9408,MATCH,EXACT,11720.00,Clean 1:1 match
+PAY_5412,SET_9409,MATCH,FEE,12223.85,Net matched with fee 186.15 (1.500%)
+PAY_5413,SET_9410,MATCH,FORMATTING,807.00,Matched via format normalization (lower)
+PAY_5414,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5415,SET_9411,AMBIGUOUS_REVIEW,PARTIAL,26595.20,Partial settlement (80.0% of gross)
+PAY_5416,SET_9412,MATCH,EXACT,21871.00,Clean 1:1 match
+PAY_5417,SET_9413,AMBIGUOUS_REVIEW,ADVERSARIAL,12402.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5418,SET_9415,AMBIGUOUS_REVIEW,PARTIAL,29928.00,Partial settlement (80.0% of gross)
+PAY_5419,SET_9416,MATCH,EXACT,42059.00,Clean 1:1 match
+PAY_5420,SET_9417,MATCH,DELAY,21691.00,Settlement delay T+2 days (valid by policy)
+PAY_5421,SET_9418,MATCH,EXACT,9415.00,Clean 1:1 match
+PAY_5422,SET_9419,MATCH,FEE,16944.20,Net matched with fee 345.80 (2.00%)
+PAY_5423,SET_9420,MATCH,EXACT,49598.00,Clean 1:1 match
+PAY_5424,SET_9421,MATCH,EXACT,47574.00,Clean 1:1 match
+PAY_5425,SET_9422,MATCH,DELAY,23287.74,Settlement delay T+2 days (valid by policy)
+PAY_5426,SET_9423,MATCH,EXACT,7947.00,Clean 1:1 match
+PAY_5427,SET_9424,MATCH,FEE,44484.57,Net matched with fee 677.43 (1.500%)
+PAY_5428,SET_9425,MATCH,EXACT,7894.00,Clean 1:1 match
+PAY_5429,SET_9426,MATCH,FEE,14379.54,Net matched with fee 293.46 (2.00%)
+PAY_5430,SET_9427,MATCH,FEE,10085.41,Net matched with fee 153.59 (1.500%)
+PAY_5431,SET_9428,AMBIGUOUS_REVIEW,PARTIAL,36961.60,Partial settlement (80.0% of gross)
+PAY_5432,SET_9429,MATCH,EXACT,16417.00,Clean 1:1 match
+PAY_5433,SET_9430,MATCH,FEE,45488.20,Net matched with fee 833.80 (1.800%)
+PAY_5434,SET_9431,MATCH,EXACT,7553.00,Clean 1:1 match
+PAY_5435,SET_9432,MATCH,EXACT,21703.00,Clean 1:1 match
+PAY_5436,SET_9433,MATCH,EXACT,13661.00,Clean 1:1 match
+PAY_5437,SET_9434,MATCH,FORMATTING,29395.00,Matched via format normalization (spaces)
+PAY_5438,SET_9435,MATCH,FORMATTING,33836.00,Matched via format normalization (raw_num)
+PAY_5439,SET_9436,MATCH,DELAY,36821.00,Settlement delay T+2 days (valid by policy)
+PAY_5440,SET_9437,MATCH,EXACT,16876.00,Clean 1:1 match
+PAY_5441,SET_9438,AMBIGUOUS_REVIEW,PARTIAL,4238.10,Partial settlement (85.00% of gross)
+PAY_5442,SET_9439,MATCH,EXACT,4378.00,Clean 1:1 match
+PAY_5443,SET_9440,MATCH,FEE,2237.98,Net matched with fee 41.02 (1.800%)
+PAY_5444,SET_9441,MATCH,EXACT,9075.00,Clean 1:1 match
+PAY_5445,SET_9442,AMBIGUOUS_REVIEW,PARTIAL,26635.50,Partial settlement (90.0% of gross)
+PAY_5446,SET_9443,MATCH,EXACT,44943.00,Clean 1:1 match
+PAY_5447,SET_9444,MATCH,EXACT,11896.00,Clean 1:1 match
+PAY_5448,SET_9445,MATCH,EXACT,14794.00,Clean 1:1 match
+PAY_5449,SET_9446,AMBIGUOUS_REVIEW,ADVERSARIAL,30543.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5450,SET_9448,AMBIGUOUS_REVIEW,ADVERSARIAL,25056.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5451,SET_9450,MATCH,EXACT,30387.00,Clean 1:1 match
+PAY_5452,SET_9451,MATCH,DELAY,47715.00,Settlement delay T+2 days (valid by policy)
+PAY_5453,SET_9452,MATCH,EXACT,27675.00,Clean 1:1 match
+PAY_5454,SET_9453,MATCH,EXACT,4609.00,Clean 1:1 match
+PAY_5455,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5456,SET_9454,MATCH,EXACT,48732.00,Clean 1:1 match
+PAY_5457,SET_9455,AMBIGUOUS_REVIEW,ADVERSARIAL,35573.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5458,SET_9457,MATCH,DELAY,32558.54,Settlement delay T+3 days (valid by policy)
+PAY_5459,SET_9458,MATCH,EXACT,39385.00,Clean 1:1 match
+PAY_5460,SET_9459,AMBIGUOUS_REVIEW,PARTIAL,8629.20,Partial settlement (90.0% of gross)
+PAY_5461,SET_9460,MATCH,DELAY,17867.36,Settlement delay T+3 days (valid by policy)
+PAY_5462,SET_9461,MATCH,EXACT,32681.00,Clean 1:1 match
+PAY_5463,SET_9462,AMBIGUOUS_REVIEW,PARTIAL,18979.20,Partial settlement (90.0% of gross)
+PAY_5464,SET_9463,AMBIGUOUS_REVIEW,PARTIAL,17867.70,Partial settlement (90.0% of gross)
+PAY_5465,SET_9464,MATCH,EXACT,14968.00,Clean 1:1 match
+PAY_5466,SET_9465,MATCH,FEE,36388.99,Net matched with fee 667.01 (1.800%)
+PAY_5467,SET_9466,MATCH,FORMATTING,34933.00,Matched via format normalization (slash)
+PAY_5468,SET_9467,MATCH,EXACT,13525.00,Clean 1:1 match
+PAY_5469,SET_9468,MATCH,FORMATTING,6259.00,Matched via format normalization (dash)
+PAY_5470,SET_9469,AMBIGUOUS_REVIEW,ADVERSARIAL,24918.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5471,SET_9471,MATCH,DELAY,12280.38,Settlement delay T+3 days (valid by policy)
+PAY_5472,SET_9472,MATCH,FEE,21624.62,Net matched with fee 396.38 (1.800%)
+PAY_5473,SET_9473,MATCH,DELAY,12653.00,Settlement delay T+3 days (valid by policy)
+PAY_5474,SET_9474,MATCH,EXACT,45788.00,Clean 1:1 match
+PAY_5475,SET_9475,MATCH,FEE,35835.28,Net matched with fee 545.72 (1.500%)
+PAY_5476,SET_9476,MATCH,EXACT,30756.00,Clean 1:1 match
+PAY_5477,SET_9477,MATCH,FEE,23341.16,Net matched with fee 427.84 (1.800%)
+PAY_5478,SET_9478,MATCH,FORMATTING,6662.00,Matched via format normalization (lower)
+PAY_5479,SET_9479,MATCH,EXACT,24494.00,Clean 1:1 match
+PAY_5480,SET_9480,MATCH,EXACT,14701.00,Clean 1:1 match
+PAY_5481,SET_9481,MATCH,EXACT,36461.00,Clean 1:1 match
+PAY_5482,SET_9482,MATCH,EXACT,13057.00,Clean 1:1 match
+PAY_5483,SET_9483,MATCH,EXACT,16304.00,Clean 1:1 match
+PAY_5484,SET_9484,MATCH,FORMATTING,32222.00,Matched via format normalization (spaces)
+PAY_5485,SET_9485,MATCH,FEE,47498.67,Net matched with fee 723.33 (1.500%)
+PAY_5486,SET_9486,MATCH,EXACT,9372.00,Clean 1:1 match
+PAY_5487,SET_9487,MATCH,FEE,41500.30,Net matched with fee 760.70 (1.800%)
+PAY_5488,,UNMATCHED,MISSING,,Unsettled transaction / Missing settlement record
+PAY_5489,SET_9488,AMBIGUOUS_REVIEW,ADVERSARIAL,9210.00,Conflicting duplicate candidate requires investigation / human review
+PAY_5490,SET_9490,MATCH,FEE,45707.19,Net matched with fee 837.81 (1.800%)
+PAY_5491,SET_9491,MATCH,EXACT,33343.00,Clean 1:1 match
+PAY_5492,SET_9492,MATCH,DELAY,41994.00,Settlement delay T+3 days (valid by policy)
+PAY_5493,SET_9493,MATCH,EXACT,633.00,Clean 1:1 match
+PAY_5494,SET_9494,MATCH,EXACT,34895.00,Clean 1:1 match
+PAY_5495,SET_9495,MATCH,EXACT,33113.00,Clean 1:1 match
+PAY_5496,SET_9496,MATCH,EXACT,6512.00,Clean 1:1 match
+PAY_5497,SET_9497,MATCH,DELAY,40817.00,Settlement delay T+3 days (valid by policy)
+PAY_5498,SET_9498,MATCH,EXACT,26211.00,Clean 1:1 match
+PAY_5499,SET_9499,MATCH,EXACT,37227.00,Clean 1:1 match
+PAY_5500,SET_9500,MATCH,FEE,5384.31,Net matched with fee 98.69 (1.800%)

@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ai-finance-controller-backend"
+version = "0.1.0"
+description = "AI Finance Controller Backend & Reconciliation Engine"
+authors = [{ name = "Buildathon Team" }]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.0",
+    "pandas>=2.0",
+    "numpy>=1.24",
+    "scikit-learn>=1.3",
+    "openai>=1.40",
+    "python-dotenv>=1.0",
+    "sqlalchemy>=2.0",
+    "psycopg2-binary",
+    "pgvector",
+    "fastapi",
+    "uvicorn",
+    "langgraph",
+    "langchain",
+    "langchain-openai",
+    "streamlit>=1.30",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]

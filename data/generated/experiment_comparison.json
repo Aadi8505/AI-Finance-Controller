@@ -1,0 +1,122 @@
+{
+  "dataset_size": 500,
+  "ground_truth_reconcilable_records": 400,
+  "experiment_a": {
+    "pipeline": "Experiment A (Deterministic Baseline)",
+    "total_records": 500,
+    "auto_resolved_count": 400,
+    "exception_count": 100,
+    "match_rate_pct": 80.0,
+    "precision_pct": 100.0,
+    "recall_pct": 100.0,
+    "throughput_records_per_sec": 4574.4,
+    "elapsed_seconds": 0.1093,
+    "tier_breakdown": {
+      "EXACT": {
+        "total": 200,
+        "auto_resolved": 200,
+        "correct_matches": 200,
+        "true_in_gt": 200
+      },
+      "DELAY": {
+        "total": 50,
+        "auto_resolved": 50,
+        "correct_matches": 50,
+        "true_in_gt": 50
+      },
+      "FEE": {
+        "total": 75,
+        "auto_resolved": 75,
+        "correct_matches": 75,
+        "true_in_gt": 75
+      },
+      "FORMATTING": {
+        "total": 75,
+        "auto_resolved": 75,
+        "correct_matches": 75,
+        "true_in_gt": 75
+      },
+      "PARTIAL": {
+        "total": 50,
+        "auto_resolved": 0,
+        "correct_matches": 0,
+        "true_in_gt": 0
+      },
+      "ADVERSARIAL": {
+        "total": 25,
+        "auto_resolved": 0,
+        "correct_matches": 0,
+        "true_in_gt": 0
+      },
+      "MISSING": {
+        "total": 25,
+        "auto_resolved": 0,
+        "correct_matches": 0,
+        "true_in_gt": 0
+      }
+    }
+  },
+  "experiment_b": {
+    "pipeline": "Experiment B (Agentic Investigation Pipeline)",
+    "total_records": 500,
+    "baseline_auto_resolved": 400,
+    "agent_auto_resolved": 0,
+    "total_auto_resolved": 400,
+    "final_exceptions_count": 100,
+    "match_rate_pct": 80.0,
+    "precision_pct": 100.0,
+    "recall_pct": 100.0,
+    "throughput_records_per_sec": 572.7,
+    "elapsed_seconds": 0.873,
+    "tier_breakdown": {
+      "EXACT": {
+        "total": 200,
+        "auto_resolved": 200,
+        "correct_matches": 200,
+        "true_in_gt": 200
+      },
+      "DELAY": {
+        "total": 50,
+        "auto_resolved": 50,
+        "correct_matches": 50,
+        "true_in_gt": 50
+      },
+      "FEE": {
+        "total": 75,
+        "auto_resolved": 75,
+        "correct_matches": 75,
+        "true_in_gt": 75
+      },
+      "FORMATTING": {
+        "total": 75,
+        "auto_resolved": 75,
+        "correct_matches": 75,
+        "true_in_gt": 75
+      },
+      "PARTIAL": {
+        "total": 50,
+        "auto_resolved": 0,
+        "correct_matches": 0,
+        "true_in_gt": 0
+      },
+      "ADVERSARIAL": {
+        "total": 25,
+        "auto_resolved": 0,
+        "correct_matches": 0,
+        "true_in_gt": 0
+      },
+      "MISSING": {
+        "total": 25,
+        "auto_resolved": 0,
+        "correct_matches": 0,
+        "true_in_gt": 0
+      }
+    }
+  },
+  "deltas": {
+    "match_rate_gain_pct": 0.0,
+    "precision_delta_pct": 0.0,
+    "recall_gain_pct": 0.0,
+    "additional_resolved_records": 0
+  }
+}
