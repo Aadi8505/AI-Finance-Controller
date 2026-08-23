@@ -407,7 +407,61 @@ with tab2:
                     window_days=window_days,
                 )
 
-                st.success(f"✅ Batch completed in **{res.elapsed_seconds:.4f}s** ({res.throughput_per_second:,.0f} records/sec)")
+                # Persist Run to Database
+                run_model = ReconciliationRunModel(
+                    run_id=res.run_id,
+                    total_processed=res.total_processed,
+                    auto_resolved_count=res.auto_resolved_count,
+                    exception_count=res.exception_count,
+                    elapsed_seconds=Decimal(str(round(res.elapsed_seconds, 4))),
+                    t_high=Decimal(str(t_high)),
+                    t_low=Decimal(str(t_low)),
+                    status="COMPLETED",
+                )
+                session.merge(run_model)
+
+                # Clear previous matches and exceptions for clean fresh batch state
+                session.query(ReconciliationResultModel).delete()
+                session.query(ExceptionModel).delete()
+
+                # Persist Matches
+                for m in res.matched:
+                    session.add(
+                        ReconciliationResultModel(
+                            run_id=res.run_id,
+                            payment_id=m.payment_id,
+                            settlement_id=m.settlement_id,
+                            amount_paid=m.amount_paid,
+                            settlement_net=m.settlement_net,
+                            fee_deducted=m.fee_deducted,
+                            discrepancy=m.discrepancy,
+                            confidence_score=m.confidence_score,
+                            status=m.status,
+                            audit_note=m.audit_note,
+                        )
+                    )
+
+                # Persist Exceptions to populate Human Review Queue
+                for e in res.exceptions:
+                    session.add(
+                        ExceptionModel(
+                            exception_id=e.exception_id,
+                            run_id=res.run_id,
+                            payment_id=e.payment_id,
+                            amount=e.amount,
+                            reason_code=e.reason_code,
+                            severity=e.severity,
+                            description=e.description,
+                            candidate_settlement_ids=e.candidate_settlement_ids,
+                            suggested_action=e.suggested_action,
+                            status="OPEN",
+                            metadata_json=e.metadata,
+                        )
+                    )
+
+                session.commit()
+
+                st.success(f"✅ Batch completed and saved to database in **{res.elapsed_seconds:.4f}s** ({res.throughput_per_second:,.0f} records/sec)")
 
                 r1, r2, r3, r4 = st.columns(4)
                 r1.markdown(f"""<div class="kpi-card">
@@ -422,13 +476,60 @@ with tab2:
                 r3.markdown(f"""<div class="kpi-card">
                     <div class="kpi-label">Exceptions</div>
                     <div class="kpi-value" style="color:#fbbf24">{res.exception_count}</div>
-                    <div class="kpi-delta negative">{(res.exception_count/res.total_processed*100):.1f}%</div>
+                    <div class="kpi-delta negative">{(res.exception_count/res.total_processed*100):.1f}% (Sent to Human Review)</div>
                 </div>""", unsafe_allow_html=True)
                 r4.markdown(f"""<div class="kpi-card">
                     <div class="kpi-label">Throughput</div>
                     <div class="kpi-value" style="color:#38bdf8">{res.throughput_per_second:,.0f}</div>
                     <div class="kpi-delta neutral">records/sec</div>
                 </div>""", unsafe_allow_html=True)
+
+    st.markdown("")
+    st.markdown('<div class="section-header">🔍 Live Reconciled Data Explorer</div>', unsafe_allow_html=True)
+    st.caption("Inspect the exact transactions being reconciled: auto-resolved matches vs open exceptions.")
+
+    data_view = st.radio("View Dataset:", ["🟢 Auto-Resolved Matches (Commit to Ledger)", "🟡 Flagged Exceptions (Awaiting Human Review)"], horizontal=True)
+
+    with get_db_session() as session:
+        if "Auto-Resolved" in data_view:
+            matches = session.query(ReconciliationResultModel).order_by(ReconciliationResultModel.id.asc()).all()
+            if matches:
+                df_matches = pd.DataFrame([
+                    {
+                        "Payment ID": m.payment_id,
+                        "Settlement ID": m.settlement_id,
+                        "Amount Paid (₹)": f"{float(m.amount_paid):,.2f}",
+                        "Settlement Net (₹)": f"{float(m.settlement_net):,.2f}",
+                        "Fee Deducted (₹)": f"{float(m.fee_deducted):,.2f}",
+                        "Discrepancy (₹)": f"{float(m.discrepancy):,.2f}",
+                        "Confidence Score": f"{float(m.confidence_score):.2f}",
+                        "Status": m.status,
+                        "Audit Note": m.audit_note,
+                    }
+                    for m in matches
+                ])
+                st.dataframe(df_matches, use_container_width=True, hide_index=True)
+            else:
+                st.info("No matches in database yet. Click 'Run Batch Reconciliation' above.")
+        else:
+            exceptions = session.query(ExceptionModel).order_by(ExceptionModel.created_at.asc()).all()
+            if exceptions:
+                df_exc = pd.DataFrame([
+                    {
+                        "Exception ID": e.exception_id,
+                        "Payment ID": e.payment_id,
+                        "Amount (₹)": f"{float(e.amount):,.2f}",
+                        "Reason Code": e.reason_code,
+                        "Severity": e.severity,
+                        "Status": e.status,
+                        "Candidate Settlements Count": len(e.candidate_settlement_ids or []),
+                        "Description": e.description,
+                    }
+                    for e in exceptions
+                ])
+                st.dataframe(df_exc, use_container_width=True, hide_index=True)
+            else:
+                st.info("No exceptions recorded yet. Click 'Run Batch Reconciliation' above.")
 
     st.markdown("")
     st.markdown('<div class="section-header">Historical Reconciliation Runs</div>', unsafe_allow_html=True)
@@ -449,6 +550,7 @@ with tab2:
             st.dataframe(pd.DataFrame(run_table), use_container_width=True, hide_index=True)
         else:
             st.info("No runs recorded yet. Click the button above to run your first reconciliation.")
+
 
 
 # ---------------------------------------------------------------------------
