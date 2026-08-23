@@ -14,9 +14,14 @@ def setup_test_db():
 
 def test_database_connection_and_pgvector(setup_test_db):
     with get_db_session() as session:
-        result = session.execute(text("SELECT extname FROM pg_extension WHERE extname='vector';")).fetchone()
-        assert result is not None
-        assert result[0] == "vector"
+        bind = session.get_bind()
+        if "postgresql" in str(bind.url):
+            result = session.execute(text("SELECT extname FROM pg_extension WHERE extname='vector';")).fetchone()
+            assert result is not None
+            assert result[0] == "vector"
+        else:
+            result = session.execute(text("SELECT 1;")).fetchone()
+            assert result is not None
 
 
 def test_query_seeded_orders(setup_test_db):

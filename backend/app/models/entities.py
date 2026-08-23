@@ -12,6 +12,7 @@ from sqlalchemy import (
     DateTime,
     ForeignKey,
     Integer,
+    JSON,
     Numeric,
     String,
     Text,
@@ -21,6 +22,8 @@ from sqlalchemy.dialects.postgresql import JSONB
 from sqlalchemy.orm import relationship
 
 from app.db.database import Base
+
+JSONType = JSON().with_variant(JSONB, "postgresql")
 
 
 class OrderModel(Base):
@@ -120,10 +123,10 @@ class ExceptionModel(Base):
     reason_code = Column(String(64), nullable=False, index=True)
     severity = Column(String(16), nullable=False, default="MEDIUM")
     description = Column(Text, nullable=False)
-    candidate_settlement_ids = Column(JSONB, default=list)
+    candidate_settlement_ids = Column(JSONType, default=list)
     suggested_action = Column(String(64), nullable=False, default="INVESTIGATE_AGENT")
     status = Column(String(32), nullable=False, default="OPEN", index=True)
-    metadata_json = Column("metadata", JSONB, default=dict)
+    metadata_json = Column("metadata", JSONType, default=dict)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
     run = relationship("ReconciliationRunModel", back_populates="exceptions")
@@ -150,7 +153,7 @@ class AgentRunModel(Base):
     action = Column(String(32), nullable=False)
     confidence = Column(Numeric(5, 4), nullable=False)
     applied_policy_id = Column(String(64), ForeignKey("policies.policy_id"), nullable=True)
-    reason_codes = Column(JSONB, default=list)
+    reason_codes = Column(JSONType, default=list)
     evidence_summary = Column(Text, nullable=False)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
@@ -163,8 +166,8 @@ class AgentToolCallModel(Base):
     call_id = Column(String(64), primary_key=True)
     agent_run_id = Column(String(64), ForeignKey("agent_runs.agent_run_id", ondelete="CASCADE"), nullable=False)
     tool_name = Column(String(64), nullable=False)
-    tool_input = Column(JSONB, nullable=False)
-    tool_output = Column(JSONB, nullable=False)
+    tool_input = Column(JSONType, nullable=False)
+    tool_output = Column(JSONType, nullable=False)
     execution_time_ms = Column(Numeric(10, 2), nullable=True)
     created_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 
