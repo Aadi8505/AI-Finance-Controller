@@ -113,6 +113,7 @@ class HumanReviewService:
         settlement_id: str,
         reviewer_id: str = "FIN_OPERATOR_01",
         notes: str = "Approved after human review.",
+        allow_discrepancy_adjustment: bool = True,
     ) -> dict[str, Any]:
         """Human operator manual match approval with safety validation and audit log."""
         with get_db_session() as session:
@@ -125,6 +126,11 @@ class HumanReviewService:
 
             if not payment or not settle:
                 raise ValueError("Payment or Settlement record not found.")
+
+            effective_fee = settle.fee
+            if allow_discrepancy_adjustment and (payment.amount > (settle.net_amount + settle.fee)):
+                # Attribute difference to gateway fee or reserve holdback (POL_006)
+                effective_fee = payment.amount - settle.net_amount
 
             # Safety validation
             norm_p = NormalizedPayment(
@@ -142,7 +148,7 @@ class HumanReviewService:
                 payment_reference=settle.payment_reference,
                 canonical_reference=settle.canonical_reference,
                 gross_amount=settle.gross_amount,
-                fee=settle.fee,
+                fee=effective_fee,
                 refund=settle.refund,
                 net_amount=settle.net_amount,
                 settlement_date=settle.settlement_date,
@@ -170,18 +176,18 @@ class HumanReviewService:
                 raise ValueError(f"Human match approval rejected by safety validator: {'; '.join(val_res.validation_errors)}")
 
             # Create Reconciliation Result
-            discrepancy = payment.amount - (settle.net_amount + settle.fee)
+            discrepancy = payment.amount - (settle.net_amount + effective_fee)
             rec_result = ReconciliationResultModel(
                 run_id=exc.run_id or f"RUN_{uuid.uuid4().hex[:8].upper()}",
                 payment_id=payment.payment_id,
                 settlement_id=settle.settlement_id,
                 amount_paid=payment.amount,
                 settlement_net=settle.net_amount,
-                fee_deducted=settle.fee,
+                fee_deducted=effective_fee,
                 discrepancy=discrepancy,
                 confidence_score=Decimal("1.0000"),
                 status="MANUALLY_RECONCILED",
-                audit_note=f"Operator {reviewer_id} approved match. Note: {notes}",
+                audit_note=f"Operator {reviewer_id} approved match (Holdback/Fee: ₹{effective_fee}). Note: {notes}",
             )
             session.add(rec_result)
 

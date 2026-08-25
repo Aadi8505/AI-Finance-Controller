@@ -507,6 +507,7 @@ with tab2:
             if matches:
                 df_matches = pd.DataFrame([
                     {
+                        "S.No": idx + 1,
                         "Payment ID": m.payment_id,
                         "Settlement ID": m.settlement_id,
                         "Amount Paid (₹)": f"{float(m.amount_paid):,.2f}",
@@ -517,7 +518,7 @@ with tab2:
                         "Status": m.status,
                         "Audit Note": m.audit_note,
                     }
-                    for m in matches
+                    for idx, m in enumerate(matches)
                 ])
                 st.dataframe(df_matches, use_container_width=True, hide_index=True)
             else:
@@ -527,6 +528,7 @@ with tab2:
             if exceptions:
                 df_exc = pd.DataFrame([
                     {
+                        "S.No": idx + 1,
                         "Exception ID": e.exception_id,
                         "Payment ID": e.payment_id,
                         "Amount (₹)": f"{float(e.amount):,.2f}",
@@ -536,7 +538,7 @@ with tab2:
                         "Candidate Settlements Count": len(e.candidate_settlement_ids or []),
                         "Description": e.description,
                     }
-                    for e in exceptions
+                    for idx, e in enumerate(exceptions)
                 ])
                 st.dataframe(df_exc, use_container_width=True, hide_index=True)
             else:
@@ -549,6 +551,7 @@ with tab2:
         if runs:
             run_table = [
                 {
+                    "S.No": idx + 1,
                     "Run ID": r.run_id,
                     "Total": r.total_processed,
                     "Auto-Resolved": r.auto_resolved_count,
@@ -556,7 +559,7 @@ with tab2:
                     "Duration": f"{r.elapsed_seconds}s",
                     "Timestamp": r.created_at.strftime("%Y-%m-%d %H:%M:%S") if r.created_at else "",
                 }
-                for r in runs
+                for idx, r in enumerate(runs)
             ]
             st.dataframe(pd.DataFrame(run_table), use_container_width=True, hide_index=True)
         else:
@@ -673,7 +676,7 @@ with tab4:
         <div style="text-align:center; padding:60px 20px;">
             <div style="font-size:48px; margin-bottom:12px;">🎉</div>
             <div style="font-size:20px; font-weight:700; color:#34d399; margin-bottom:8px;">All Caught Up!</div>
-            <div style="font-size:14px; color:#94a3b8;">No pending exceptions in the review queue.</div>
+            <div style="font-size:14px; color:#94a3b8;">No pending exceptions in the review queue. Run batch reconciliation to load exceptions.</div>
         </div>
         """, unsafe_allow_html=True)
     else:
@@ -716,11 +719,42 @@ with tab4:
         st.markdown("")
         st.markdown("##### Candidate Settlements")
         if cands:
-            st.dataframe(pd.DataFrame(cands), use_container_width=True, hide_index=True)
+            cands_with_sno = [
+                {
+                    "S.No": idx + 1,
+                    "Settlement ID": c["settlement_id"],
+                    "Gross Amount (₹)": f"{float(c.get('gross_amount', 0)):,.2f}",
+                    "Fee (₹)": f"{float(c.get('fee', 0)):,.2f}",
+                    "Refund (₹)": f"{float(c.get('refund', 0)):,.2f}",
+                    "Net Amount (₹)": f"{float(c.get('net_amount', 0)):,.2f}",
+                    "Settlement Date": c.get("settlement_date"),
+                    "Payment Reference": c.get("payment_reference"),
+                    "Status": c.get("status"),
+                }
+                for idx, c in enumerate(cands)
+            ]
+            st.dataframe(pd.DataFrame(cands_with_sno), use_container_width=True, hide_index=True)
             chosen_settle_id = st.selectbox("Select settlement to match:", [c["settlement_id"] for c in cands])
+
+            # Discrepancy analysis
+            if p_info and chosen_settle_id:
+                p_amt = Decimal(str(p_info["amount"]))
+                chosen_c = next((c for c in cands if c["settlement_id"] == chosen_settle_id), None)
+                if chosen_c:
+                    s_net = Decimal(str(chosen_c.get("net_amount", 0)))
+                    s_fee = Decimal(str(chosen_c.get("fee", 0)))
+                    diff = p_amt - (s_net + s_fee)
+                    if diff > Decimal("0.02"):
+                        st.info(f"💡 **Holdback / Fee Analysis (POL_006)**: Payment (₹{p_amt:,.2f}) > Settlement Net (₹{s_net:,.2f}). Difference of **₹{diff:,.2f}** will be attributed as Gateway Reserve Holdback / Fee Adjustment under policy POL_006 upon approval.")
         else:
             st.warning("No candidate settlements found for this exception.")
             chosen_settle_id = None
+
+        allow_holdback_adj = st.checkbox(
+            "🛡️ Attribute Discrepancy as Reserve Holdback / Fee Adjustment (POL_006)",
+            value=True,
+            help="Preserves monetary conservation by accounting for gateway reserve holdbacks or fee deductions."
+        )
 
         reviewer_notes = st.text_area("Reviewer Audit Notes:", value="Manual operator review verification.", height=80)
 
@@ -728,7 +762,12 @@ with tab4:
         with c_act1:
             if chosen_settle_id and st.button("✅ Approve Match", type="primary", use_container_width=True):
                 try:
-                    res = review_service.approve_match(selected_exc_id, chosen_settle_id, notes=reviewer_notes)
+                    res = review_service.approve_match(
+                        selected_exc_id,
+                        chosen_settle_id,
+                        notes=reviewer_notes,
+                        allow_discrepancy_adjustment=allow_holdback_adj,
+                    )
                     st.success(f"Match Approved! {res['audit_note']}")
                     st.rerun()
                 except Exception as e:
@@ -781,22 +820,23 @@ with tab5:
         st.markdown("")
         st.markdown("##### Experiment A (Baseline) vs Experiment B (Agentic)")
         comp_table = [
-            {"Metric": "Pipeline Type", "Experiment A (Baseline)": exp_a.get("pipeline", "Deterministic"), "Experiment B (Agentic)": exp_b.get("pipeline", "Deterministic + Agent")},
-            {"Metric": "Total Records", "Experiment A (Baseline)": str(exp_a.get("total_records")), "Experiment B (Agentic)": str(exp_b.get("total_records"))},
-            {"Metric": "Auto-Resolved", "Experiment A (Baseline)": str(exp_a.get("auto_resolved_count")), "Experiment B (Agentic)": str(exp_b.get("total_auto_resolved"))},
-            {"Metric": "Exceptions", "Experiment A (Baseline)": str(exp_a.get("exception_count")), "Experiment B (Agentic)": str(exp_b.get("final_exceptions_count"))},
-            {"Metric": "Match Rate", "Experiment A (Baseline)": f"{exp_a.get('match_rate_pct')}%", "Experiment B (Agentic)": f"{exp_b.get('match_rate_pct')}%"},
-            {"Metric": "Precision", "Experiment A (Baseline)": f"{exp_a.get('precision_pct')}%", "Experiment B (Agentic)": f"{exp_b.get('precision_pct')}%"},
-            {"Metric": "Latency", "Experiment A (Baseline)": f"{exp_a.get('elapsed_seconds')}s", "Experiment B (Agentic)": f"{exp_b.get('elapsed_seconds')}s"},
-            {"Metric": "Throughput", "Experiment A (Baseline)": f"{exp_a.get('throughput_records_per_sec'):,.0f} rec/s", "Experiment B (Agentic)": f"{exp_b.get('throughput_records_per_sec'):,.0f} rec/s"},
+            {"S.No": 1, "Metric": "Pipeline Type", "Experiment A (Baseline)": exp_a.get("pipeline", "Deterministic"), "Experiment B (Agentic)": exp_b.get("pipeline", "Deterministic + Agent")},
+            {"S.No": 2, "Metric": "Total Records", "Experiment A (Baseline)": str(exp_a.get("total_records")), "Experiment B (Agentic)": str(exp_b.get("total_records"))},
+            {"S.No": 3, "Metric": "Auto-Resolved", "Experiment A (Baseline)": str(exp_a.get("auto_resolved_count")), "Experiment B (Agentic)": str(exp_b.get("total_auto_resolved"))},
+            {"S.No": 4, "Metric": "Exceptions", "Experiment A (Baseline)": str(exp_a.get("exception_count")), "Experiment B (Agentic)": str(exp_b.get("final_exceptions_count"))},
+            {"S.No": 5, "Metric": "Match Rate", "Experiment A (Baseline)": f"{exp_a.get('match_rate_pct')}%", "Experiment B (Agentic)": f"{exp_b.get('match_rate_pct')}%"},
+            {"S.No": 6, "Metric": "Precision", "Experiment A (Baseline)": f"{exp_a.get('precision_pct')}%", "Experiment B (Agentic)": f"{exp_b.get('precision_pct')}%"},
+            {"S.No": 7, "Metric": "Latency", "Experiment A (Baseline)": f"{exp_a.get('elapsed_seconds')}s", "Experiment B (Agentic)": f"{exp_b.get('elapsed_seconds')}s"},
+            {"S.No": 8, "Metric": "Throughput", "Experiment A (Baseline)": f"{exp_a.get('throughput_records_per_sec'):,.0f} rec/s", "Experiment B (Agentic)": f"{exp_b.get('throughput_records_per_sec'):,.0f} rec/s"},
         ]
         st.dataframe(pd.DataFrame(comp_table), use_container_width=True, hide_index=True)
 
         st.markdown("")
         st.markdown("##### Performance by Difficulty Tier")
         tier_rows = []
-        for t, metrics in exp_b.get("tier_breakdown", {}).items():
+        for idx, (t, metrics) in enumerate(exp_b.get("tier_breakdown", {}).items()):
             tier_rows.append({
+                "S.No": idx + 1,
                 "Difficulty Tier": t,
                 "Total": metrics["total"],
                 "Auto-Resolved": metrics["auto_resolved"],
@@ -818,3 +858,4 @@ with tab5:
         m4.metric("Exception Rate", f"{pm.get('exception_rate_pct', 0.0):.1f}%")
     else:
         st.info("Run `python scripts/evaluate_comparison.py` to generate benchmark comparison data.")
+
