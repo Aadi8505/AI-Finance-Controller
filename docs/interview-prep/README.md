@@ -18,6 +18,7 @@
 | 8 | [Safety, Validation & Human Review](08_safety_and_review.md) | Safety barriers, ACID guarantees, human-in-the-loop design |
 | 9 | [Testing & Evaluation Strategy](09_testing_and_evaluation.md) | Test suite design, benchmark methodology, adversarial testing |
 | 10 | [📋 Priority Study Guide](10_study_guide.md) | **Ranked list of topics to study** before the interview |
+| 11 | [🖥️ Frontend Dashboard & UI Glossary Guide](11_frontend_dashboard_guide.md) | **Complete breakdown of every UI tab, metric card, keyword, slider, and table** |
 
 ---
 
