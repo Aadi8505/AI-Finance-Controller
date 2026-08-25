@@ -114,6 +114,7 @@ class HumanReviewService:
         reviewer_id: str = "FIN_OPERATOR_01",
         notes: str = "Approved after human review.",
         allow_discrepancy_adjustment: bool = True,
+        **kwargs: Any,
     ) -> dict[str, Any]:
         """Human operator manual match approval with safety validation and audit log."""
         with get_db_session() as session:
