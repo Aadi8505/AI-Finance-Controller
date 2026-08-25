@@ -280,6 +280,17 @@ with st.sidebar.expander("View 7 Grounded Policies", expanded=False):
             <div class="pol-summary">{desc}</div>
         </div>""", unsafe_allow_html=True)
 
+st.sidebar.markdown("---")
+st.sidebar.markdown("##### 🔄 Reset Demo State")
+if st.sidebar.button("🧹 Clear All Reconciled Records", use_container_width=True, help="Reset reconciliation state to 0 matches and 0 exceptions so you can run the live walkthrough fresh."):
+    with get_db_session() as session:
+        session.query(HumanReviewModel).delete()
+        session.query(ReconciliationResultModel).delete()
+        session.query(ExceptionModel).delete()
+        session.query(ReconciliationRunModel).delete()
+        session.commit()
+    st.sidebar.success("State reset! Reconciled: 0, Exceptions: 0")
+    st.rerun()
 
 # ---------------------------------------------------------------------------
 # Hero Banner
