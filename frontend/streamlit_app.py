@@ -282,16 +282,33 @@ with st.sidebar.expander("View 7 Grounded Policies", expanded=False):
         </div>""", unsafe_allow_html=True)
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("##### 🔄 Reset Demo State")
-if st.sidebar.button("🧹 Clear All Reconciled Records", use_container_width=True, help="Reset reconciliation state to 0 matches and 0 exceptions so you can run the live walkthrough fresh."):
-    with get_db_session() as session:
-        session.query(HumanReviewModel).delete()
-        session.query(ReconciliationResultModel).delete()
-        session.query(ExceptionModel).delete()
-        session.query(ReconciliationRunModel).delete()
-        session.commit()
-    st.sidebar.success("State reset! Reconciled: 0, Exceptions: 0")
-    st.rerun()
+st.sidebar.markdown("##### 🔄 Reset & Restore Demo State")
+col_sb1, col_sb2 = st.sidebar.columns(2)
+with col_sb1:
+    if st.button("🧹 Clear State", use_container_width=True, help="Reset reconciliation state to 0 matches and 0 exceptions."):
+        with get_db_session() as session:
+            session.query(HumanReviewModel).delete()
+            session.query(ReconciliationResultModel).delete()
+            session.query(ExceptionModel).delete()
+            session.query(ReconciliationRunModel).delete()
+            session.commit()
+        st.sidebar.success("State reset!")
+        st.rerun()
+with col_sb2:
+    if st.button("📦 Restore 500", use_container_width=True, help="Restore the default 500 synthetic dataset into the database."):
+        with get_db_session() as session:
+            session.query(HumanReviewModel).delete()
+            session.query(ReconciliationResultModel).delete()
+            session.query(ExceptionModel).delete()
+            session.query(ReconciliationRunModel).delete()
+            session.query(PaymentModel).delete()
+            session.query(SettlementModel).delete()
+            session.query(OrderModel).delete()
+            session.commit()
+        from app.db.database import _seed_sqlite_if_empty
+        _seed_sqlite_if_empty()
+        st.sidebar.success("Default 500 dataset restored!")
+        st.rerun()
 
 # ---------------------------------------------------------------------------
 # Hero Banner
@@ -376,9 +393,10 @@ with tab1:
 # TAB 2: Batch Reconciliation
 # ---------------------------------------------------------------------------
 with tab2:
-    st.markdown('<div class="section-header">⚡ Deterministic Batch Reconciliation</div>', unsafe_allow_html=True)
-    st.caption("Run high-throughput normalization and multi-factor weighted scoring across all ingested transactions.")
+    st.markdown('<div class="section-header">⚡ Deterministic Batch Reconciliation & Ingestion</div>', unsafe_allow_html=True)
+    st.caption("Configure multi-factor scoring thresholds and choose whether to reconcile current database records or upload custom CSVs.")
 
+    # Threshold Controls
     c1, c2, c3 = st.columns(3)
     with c1:
         t_high = st.slider("High Confidence Threshold (Auto-Resolve)", 0.80, 0.99, 0.90, 0.01,
@@ -390,111 +408,248 @@ with tab2:
         window_days = st.number_input("Max Settlement Window (Days)", min_value=1, max_value=30, value=7,
                                       help="Settlement candidates must fall within this many days of payment date")
 
-    if st.button("🚀 Run Batch Reconciliation", type="primary", use_container_width=True):
-        with st.spinner("Executing deterministic normalization, candidate generation, and multi-factor scoring..."):
-            with get_db_session() as session:
-                payments = session.query(PaymentModel).all()
-                settlements = session.query(SettlementModel).all()
+    # Ingestion Source Selector
+    st.markdown("##### 📁 Data Ingestion Mode")
+    source_mode = st.radio(
+        "Choose Ingestion Mode:",
+        ["⚡ Mode 1: Use Current Ingested Database Records", "📁 Mode 2: Upload Custom CSV Files (Payments & Settlements)"],
+        horizontal=True,
+    )
 
-                norm_payments = [
-                    NormalizedPayment(
-                        payment_id=p.payment_id, order_id=p.order_id,
-                        amount=p.amount, payment_date=p.payment_date,
-                        payment_method=p.payment_method, status=p.status,
-                        raw_reference=p.raw_reference, canonical_reference=p.canonical_reference,
-                    ) for p in payments
-                ]
-                norm_settlements = [
-                    NormalizedSettlement(
-                        settlement_id=s.settlement_id, payment_reference=s.payment_reference,
-                        canonical_reference=s.canonical_reference, gross_amount=s.gross_amount,
-                        fee=s.fee, refund=s.refund, net_amount=s.net_amount,
-                        settlement_date=s.settlement_date, status=s.status,
-                    ) for s in settlements
-                ]
+    if "Upload Custom CSV" in source_mode:
+        st.markdown("""
+        <div style="background:rgba(30,41,59,0.5); border:1px solid #334155; border-radius:10px; padding:14px 18px; margin:10px 0;">
+            <span style="color:#38bdf8; font-weight:700;">📂 Custom CSV Ingestion</span>
+            <span style="color:#94a3b8; font-size:13px; margin-left:8px;">Upload your own <code>payments.csv</code> and <code>settlements.csv</code>. Formats are parsed dynamically.</span>
+        </div>
+        """, unsafe_allow_html=True)
 
-                res = run_deterministic_reconciliation(
-                    payments=norm_payments, settlements=norm_settlements,
-                    t_high=Decimal(str(t_high)), t_low=Decimal(str(t_low)),
-                    window_days=window_days,
-                )
+        col_up1, col_up2 = st.columns(2)
+        with col_up1:
+            up_payments = st.file_uploader("Upload payments.csv", type=["csv"], key="custom_pay_file")
+        with col_up2:
+            up_settlements = st.file_uploader("Upload settlements.csv", type=["csv"], key="custom_settle_file")
 
-                # Persist Run to Database
-                run_model = ReconciliationRunModel(
-                    run_id=res.run_id,
-                    total_processed=res.total_processed,
-                    auto_resolved_count=res.auto_resolved_count,
-                    exception_count=res.exception_count,
-                    elapsed_seconds=Decimal(str(round(res.elapsed_seconds, 4))),
-                    t_high=Decimal(str(t_high)),
-                    t_low=Decimal(str(t_low)),
-                    status="COMPLETED",
-                )
-                session.merge(run_model)
+        if up_payments and up_settlements:
+            df_custom_p = pd.read_csv(up_payments)
+            df_custom_s = pd.read_csv(up_settlements)
 
-                # Clear previous matches and exceptions for clean fresh batch state
-                session.query(ReconciliationResultModel).delete()
-                session.query(ExceptionModel).delete()
+            st.success(f"✓ Uploaded: **{len(df_custom_p)} Payments** and **{len(df_custom_s)} Settlements**")
 
-                # Persist Matches
-                for m in res.matched:
-                    session.add(
-                        ReconciliationResultModel(
-                            run_id=res.run_id,
-                            payment_id=m.payment_id,
-                            settlement_id=m.settlement_id,
-                            amount_paid=m.amount_paid,
-                            settlement_net=m.settlement_net,
-                            fee_deducted=m.fee_deducted,
-                            discrepancy=m.discrepancy,
-                            confidence_score=m.confidence_score,
-                            status=m.status,
-                            audit_note=m.audit_note,
-                        )
+            with st.expander("Preview Uploaded CSV Files", expanded=False):
+                p_preview = df_custom_p.copy()
+                p_preview.insert(0, "S.No", range(1, len(p_preview) + 1))
+                st.markdown("**Payments Preview:**")
+                st.dataframe(p_preview.head(5), use_container_width=True, hide_index=True)
+
+                s_preview = df_custom_s.copy()
+                s_preview.insert(0, "S.No", range(1, len(s_preview) + 1))
+                st.markdown("**Settlements Preview:**")
+                st.dataframe(s_preview.head(5), use_container_width=True, hide_index=True)
+
+            if st.button("🚀 Ingest Custom CSVs & Run Reconciliation", type="primary", use_container_width=True):
+                with st.spinner("Normalizing uploaded custom data and executing reconciliation..."):
+                    from app.reconciliation.normalizer import normalize_row_payment, normalize_row_settlement
+                    norm_payments = [normalize_row_payment(r.to_dict()) for _, r in df_custom_p.iterrows()]
+                    norm_settlements = [normalize_row_settlement(r.to_dict()) for _, r in df_custom_s.iterrows()]
+
+                    # Clear and seed custom data into database
+                    with get_db_session() as session:
+                        session.query(HumanReviewModel).delete()
+                        session.query(ReconciliationResultModel).delete()
+                        session.query(ExceptionModel).delete()
+                        session.query(ReconciliationRunModel).delete()
+                        session.query(PaymentModel).delete()
+                        session.query(SettlementModel).delete()
+
+                        for np in norm_payments:
+                            session.add(PaymentModel(
+                                payment_id=np.payment_id,
+                                order_id=np.order_id,
+                                amount=np.amount,
+                                payment_date=np.payment_date,
+                                payment_method=np.payment_method,
+                                status=np.status,
+                                raw_reference=np.raw_reference,
+                                canonical_reference=np.canonical_reference,
+                            ))
+
+                        for ns in norm_settlements:
+                            session.add(SettlementModel(
+                                settlement_id=ns.settlement_id,
+                                payment_reference=ns.payment_reference,
+                                canonical_reference=ns.canonical_reference,
+                                gross_amount=ns.gross_amount,
+                                fee=ns.fee,
+                                refund=ns.refund,
+                                net_amount=ns.net_amount,
+                                settlement_date=ns.settlement_date,
+                                status=ns.status,
+                            ))
+                        session.commit()
+
+                    # Run Reconciliation
+                    res = run_deterministic_reconciliation(
+                        payments=norm_payments,
+                        settlements=norm_settlements,
+                        t_high=Decimal(str(t_high)),
+                        t_low=Decimal(str(t_low)),
+                        window_days=window_days,
                     )
 
-                # Persist Exceptions to populate Human Review Queue
-                for e in res.exceptions:
-                    session.add(
-                        ExceptionModel(
-                            exception_id=e.exception_id,
+                    # Persist Run and Matches
+                    with get_db_session() as session:
+                        session.merge(ReconciliationRunModel(
                             run_id=res.run_id,
-                            payment_id=e.payment_id,
-                            amount=e.amount,
-                            reason_code=e.reason_code,
-                            severity=e.severity,
-                            description=e.description,
-                            candidate_settlement_ids=e.candidate_settlement_ids,
-                            suggested_action=e.suggested_action,
-                            status="OPEN",
-                            metadata_json=e.metadata,
-                        )
+                            total_processed=res.total_processed,
+                            auto_resolved_count=res.auto_resolved_count,
+                            exception_count=res.exception_count,
+                            elapsed_seconds=Decimal(str(round(res.elapsed_seconds, 4))),
+                            t_high=Decimal(str(t_high)),
+                            t_low=Decimal(str(t_low)),
+                            status="COMPLETED",
+                        ))
+                        for m in res.matched:
+                            session.add(ReconciliationResultModel(
+                                run_id=res.run_id,
+                                payment_id=m.payment_id,
+                                settlement_id=m.settlement_id,
+                                amount_paid=m.amount_paid,
+                                settlement_net=m.settlement_net,
+                                fee_deducted=m.fee_deducted,
+                                discrepancy=m.discrepancy,
+                                confidence_score=m.confidence_score,
+                                status=m.status,
+                                audit_note=m.audit_note,
+                            ))
+                        for e in res.exceptions:
+                            session.add(ExceptionModel(
+                                exception_id=e.exception_id,
+                                run_id=res.run_id,
+                                payment_id=e.payment_id,
+                                amount=e.amount,
+                                reason_code=e.reason_code,
+                                severity=e.severity,
+                                description=e.description,
+                                candidate_settlement_ids=e.candidate_settlement_ids,
+                                suggested_action=e.suggested_action,
+                                status="OPEN",
+                                metadata_json=e.metadata,
+                            ))
+                        session.commit()
+
+                    st.success(f"✅ Custom reconciliation completed in **{res.elapsed_seconds:.4f}s** ({res.throughput_per_second:,.0f} records/sec)")
+                    st.rerun()
+        else:
+            st.info("Upload both `payments.csv` and `settlements.csv` above to proceed.")
+
+    else:
+        # Default Database Mode
+        if st.button("🚀 Run Batch Reconciliation (Current Records)", type="primary", use_container_width=True):
+            with st.spinner("Executing deterministic normalization, candidate generation, and multi-factor scoring..."):
+                with get_db_session() as session:
+                    payments = session.query(PaymentModel).all()
+                    settlements = session.query(SettlementModel).all()
+
+                    norm_payments = [
+                        NormalizedPayment(
+                            payment_id=p.payment_id, order_id=p.order_id,
+                            amount=p.amount, payment_date=p.payment_date,
+                            payment_method=p.payment_method, status=p.status,
+                            raw_reference=p.raw_reference, canonical_reference=p.canonical_reference,
+                        ) for p in payments
+                    ]
+                    norm_settlements = [
+                        NormalizedSettlement(
+                            settlement_id=s.settlement_id, payment_reference=s.payment_reference,
+                            canonical_reference=s.canonical_reference, gross_amount=s.gross_amount,
+                            fee=s.fee, refund=s.refund, net_amount=s.net_amount,
+                            settlement_date=s.settlement_date, status=s.status,
+                        ) for s in settlements
+                    ]
+
+                    res = run_deterministic_reconciliation(
+                        payments=norm_payments, settlements=norm_settlements,
+                        t_high=Decimal(str(t_high)), t_low=Decimal(str(t_low)),
+                        window_days=window_days,
                     )
 
-                session.commit()
+                    # Persist Run to Database
+                    run_model = ReconciliationRunModel(
+                        run_id=res.run_id,
+                        total_processed=res.total_processed,
+                        auto_resolved_count=res.auto_resolved_count,
+                        exception_count=res.exception_count,
+                        elapsed_seconds=Decimal(str(round(res.elapsed_seconds, 4))),
+                        t_high=Decimal(str(t_high)),
+                        t_low=Decimal(str(t_low)),
+                        status="COMPLETED",
+                    )
+                    session.merge(run_model)
 
-                st.success(f"✅ Batch completed and saved to database in **{res.elapsed_seconds:.4f}s** ({res.throughput_per_second:,.0f} records/sec)")
+                    # Clear previous matches and exceptions for clean fresh batch state
+                    session.query(ReconciliationResultModel).delete()
+                    session.query(ExceptionModel).delete()
 
-                r1, r2, r3, r4 = st.columns(4)
-                r1.markdown(f"""<div class="kpi-card">
-                    <div class="kpi-label">Processed</div>
-                    <div class="kpi-value">{res.total_processed}</div>
-                </div>""", unsafe_allow_html=True)
-                r2.markdown(f"""<div class="kpi-card">
-                    <div class="kpi-label">Auto-Resolved</div>
-                    <div class="kpi-value" style="color:#34d399">{res.auto_resolved_count}</div>
-                    <div class="kpi-delta positive">{(res.auto_resolved_count/res.total_processed*100):.1f}%</div>
-                </div>""", unsafe_allow_html=True)
-                r3.markdown(f"""<div class="kpi-card">
-                    <div class="kpi-label">Exceptions</div>
-                    <div class="kpi-value" style="color:#fbbf24">{res.exception_count}</div>
-                    <div class="kpi-delta negative">{(res.exception_count/res.total_processed*100):.1f}% (Sent to Human Review)</div>
-                </div>""", unsafe_allow_html=True)
-                r4.markdown(f"""<div class="kpi-card">
-                    <div class="kpi-label">Throughput</div>
-                    <div class="kpi-value" style="color:#38bdf8">{res.throughput_per_second:,.0f}</div>
-                    <div class="kpi-delta neutral">records/sec</div>
-                </div>""", unsafe_allow_html=True)
+                    # Persist Matches
+                    for m in res.matched:
+                        session.add(
+                            ReconciliationResultModel(
+                                run_id=res.run_id,
+                                payment_id=m.payment_id,
+                                settlement_id=m.settlement_id,
+                                amount_paid=m.amount_paid,
+                                settlement_net=m.settlement_net,
+                                fee_deducted=m.fee_deducted,
+                                discrepancy=m.discrepancy,
+                                confidence_score=m.confidence_score,
+                                status=m.status,
+                                audit_note=m.audit_note,
+                            )
+                        )
+
+                    # Persist Exceptions to populate Human Review Queue
+                    for e in res.exceptions:
+                        session.add(
+                            ExceptionModel(
+                                exception_id=e.exception_id,
+                                run_id=res.run_id,
+                                payment_id=e.payment_id,
+                                amount=e.amount,
+                                reason_code=e.reason_code,
+                                severity=e.severity,
+                                description=e.description,
+                                candidate_settlement_ids=e.candidate_settlement_ids,
+                                suggested_action=e.suggested_action,
+                                status="OPEN",
+                                metadata_json=e.metadata,
+                            )
+                        )
+
+                    session.commit()
+
+                    st.success(f"✅ Batch completed and saved to database in **{res.elapsed_seconds:.4f}s** ({res.throughput_per_second:,.0f} records/sec)")
+
+                    r1, r2, r3, r4 = st.columns(4)
+                    r1.markdown(f"""<div class="kpi-card">
+                        <div class="kpi-label">Processed</div>
+                        <div class="kpi-value">{res.total_processed}</div>
+                    </div>""", unsafe_allow_html=True)
+                    r2.markdown(f"""<div class="kpi-card">
+                        <div class="kpi-label">Auto-Resolved</div>
+                        <div class="kpi-value" style="color:#34d399">{res.auto_resolved_count}</div>
+                        <div class="kpi-delta positive">{(res.auto_resolved_count/res.total_processed*100):.1f}%</div>
+                    </div>""", unsafe_allow_html=True)
+                    r3.markdown(f"""<div class="kpi-card">
+                        <div class="kpi-label">Exceptions</div>
+                        <div class="kpi-value" style="color:#fbbf24">{res.exception_count}</div>
+                        <div class="kpi-delta negative">{(res.exception_count/res.total_processed*100):.1f}% (Sent to Human Review)</div>
+                    </div>""", unsafe_allow_html=True)
+                    r4.markdown(f"""<div class="kpi-card">
+                        <div class="kpi-label">Throughput</div>
+                        <div class="kpi-value" style="color:#38bdf8">{res.throughput_per_second:,.0f}</div>
+                        <div class="kpi-delta neutral">records/sec</div>
+                    </div>""", unsafe_allow_html=True)
 
     st.markdown("")
     st.markdown('<div class="section-header">🔍 Live Reconciled Data Explorer</div>', unsafe_allow_html=True)
