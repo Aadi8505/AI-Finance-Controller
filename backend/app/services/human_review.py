@@ -156,7 +156,13 @@ class HumanReviewService:
                 status=settle.status,
             )
 
-            # Enforce single claim from DB
+            # Remove any prior auto-resolved result for this payment so the
+            # operator's manual override can replace it cleanly.
+            session.query(ReconciliationResultModel).filter(
+                ReconciliationResultModel.payment_id == payment.payment_id
+            ).delete()
+
+            # Enforce single claim from DB (excluding the current payment we just cleared)
             claimed_s = {
                 r[0] for r in session.query(ReconciliationResultModel.settlement_id).all()
             }

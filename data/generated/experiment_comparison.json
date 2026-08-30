@@ -9,8 +9,8 @@
     "match_rate_pct": 80.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_records_per_sec": 4574.4,
-    "elapsed_seconds": 0.1093,
+    "throughput_records_per_sec": 4738.6,
+    "elapsed_seconds": 0.1055,
     "tier_breakdown": {
       "EXACT": {
         "total": 200,
@@ -66,8 +66,8 @@
     "match_rate_pct": 80.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_records_per_sec": 572.7,
-    "elapsed_seconds": 0.873,
+    "throughput_records_per_sec": 608.1,
+    "elapsed_seconds": 0.8223,
     "tier_breakdown": {
       "EXACT": {
         "total": 200,

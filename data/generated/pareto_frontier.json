@@ -7,7 +7,7 @@
     "match_rate_pct": 89.0,
     "precision_pct": 99.55,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 5003.1
+    "throughput_rec_sec": 5387.7
   },
   {
     "t_high": 0.8,
@@ -17,7 +17,7 @@
     "match_rate_pct": 89.0,
     "precision_pct": 99.55,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 4562.6
+    "throughput_rec_sec": 5177.1
   },
   {
     "t_high": 0.8,
@@ -27,7 +27,7 @@
     "match_rate_pct": 89.0,
     "precision_pct": 99.55,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 4396.5
+    "throughput_rec_sec": 5431.8
   },
   {
     "t_high": 0.85,
@@ -37,7 +37,7 @@
     "match_rate_pct": 89.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 3676.4
+    "throughput_rec_sec": 5050.4
   },
   {
     "t_high": 0.85,
@@ -47,7 +47,7 @@
     "match_rate_pct": 89.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 4682.8
+    "throughput_rec_sec": 5370.5
   },
   {
     "t_high": 0.85,
@@ -57,7 +57,7 @@
     "match_rate_pct": 89.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 5260.5
+    "throughput_rec_sec": 5436.5
   },
   {
     "t_high": 0.9,
@@ -67,7 +67,7 @@
     "match_rate_pct": 80.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 3645.9
+    "throughput_rec_sec": 5146.0
   },
   {
     "t_high": 0.9,
@@ -77,7 +77,7 @@
     "match_rate_pct": 80.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 4354.0
+    "throughput_rec_sec": 5091.6
   },
   {
     "t_high": 0.9,
@@ -87,7 +87,7 @@
     "match_rate_pct": 80.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 4885.7
+    "throughput_rec_sec": 5032.0
   },
   {
     "t_high": 0.95,
@@ -97,7 +97,7 @@
     "match_rate_pct": 80.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 4601.1
+    "throughput_rec_sec": 4806.6
   },
   {
     "t_high": 0.95,
@@ -107,7 +107,7 @@
     "match_rate_pct": 80.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 4767.1
+    "throughput_rec_sec": 4827.0
   },
   {
     "t_high": 0.95,
@@ -117,6 +117,6 @@
     "match_rate_pct": 80.0,
     "precision_pct": 100.0,
     "recall_pct": 100.0,
-    "throughput_rec_sec": 4444.3
+    "throughput_rec_sec": 3579.2
   }
 ]

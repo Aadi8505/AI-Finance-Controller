@@ -36,6 +36,7 @@ import importlib
 import app.services.human_review as hr_module
 importlib.reload(hr_module)
 from app.services.human_review import HumanReviewService
+from app.agents.graph.reconciliation_graph import investigate_payment
 
 st.set_page_config(
     page_title="AI Finance Controller — Razorpay Buildathon",
@@ -54,10 +55,25 @@ st.markdown("""
 
     html, body, [class*="css"] { font-family: 'Inter', sans-serif; }
 
-    /* ---- Hide streamlit branding ---- */
+    /* Hide streamlit branding */
     #MainMenu { visibility: hidden; }
     footer { visibility: hidden; }
-    header { visibility: hidden; }
+    [data-testid="stToolbar"] { display: none !important; }
+    [data-testid="stDecoration"] { display: none !important; }
+    /* Force sidebar to ALWAYS stay visible — override Streamlit collapse */
+    [data-testid="stSidebar"] {
+        min-width: 280px !important;
+        max-width: 320px !important;
+        width: 300px !important;
+        transform: none !important;
+        visibility: visible !important;
+        position: relative !important;
+    }
+    [data-testid="stSidebar"] > div { overflow: auto; }
+    /* Hide the collapse/expand buttons */
+    [data-testid="collapsedControl"] { display: none !important; }
+    button[kind="headerNoPadding"] { display: none !important; }
+    [data-testid="stSidebarCollapseButton"] { display: none !important; }
 
     /* ---- Gradient header banner ---- */
     .hero-banner {
@@ -449,9 +465,9 @@ with tab2:
 
             if st.button("🚀 Ingest Custom CSVs & Run Reconciliation", type="primary", use_container_width=True):
                 with st.spinner("Normalizing uploaded custom data and executing reconciliation..."):
-                    from app.reconciliation.normalizer import normalize_row_payment, normalize_row_settlement
-                    norm_payments = [normalize_row_payment(r.to_dict()) for _, r in df_custom_p.iterrows()]
-                    norm_settlements = [normalize_row_settlement(r.to_dict()) for _, r in df_custom_s.iterrows()]
+                    from app.reconciliation.normalizer import normalize_payment_row, normalize_settlement_row
+                    norm_payments = [normalize_payment_row(r.to_dict()) for _, r in df_custom_p.iterrows()]
+                    norm_settlements = [normalize_settlement_row(r.to_dict()) for _, r in df_custom_s.iterrows()]
 
                     # Clear and seed custom data into database
                     with get_db_session() as session:
